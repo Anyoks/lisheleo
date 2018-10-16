@@ -1,0 +1,9 @@
+Change the app name, folder name:
+	- application.rb 
+	- database.yml 
+	- 
+
+
+Deploy files
+	 deploy/production.rb
+	 deploy.rb
