@@ -12,9 +12,9 @@ Vagrant.configure(2) do |config|
 # config.ssh.password = 'vagrant'
   config.vm.box       = "bento/ubuntu-16.04"
 # give vm a host name
-  config.vm.hostname  = "flux"
+  config.vm.hostname  = "lisheleo"
 # link working folders to home dir on the vm
-  config.vm.synced_folder ".", "/home/vagrant/flux"
+  config.vm.synced_folder ".", "/home/vagrant/lisheleo"
 # disable the default mounting point
   # config.vm.synced_folder ".", "/vagrant", disabled: true 
 

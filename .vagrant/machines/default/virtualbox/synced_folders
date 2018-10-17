@@ -1,1 +1,1 @@
-{"virtualbox":{"/home/vagrant/flux":{"guestpath":"/home/vagrant/flux","hostpath":"/home/orinamokaya/deploy/suspenders_app","disabled":false,"__vagrantfile":true}}}
+{"virtualbox":{"/home/vagrant/lisheleo":{"guestpath":"/home/vagrant/lisheleo","hostpath":"/home/orinamokaya/deploy/lishe_leo","disabled":false,"__vagrantfile":true}}}
