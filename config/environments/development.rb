@@ -53,4 +53,8 @@ Rails.application.configure do
   # devize mailer
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+
+  # prevent server restart each time you update code.
+  config.reload_classes_only_on_change = false 
 end
