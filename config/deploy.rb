@@ -1,8 +1,8 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.11.0"
 
-set :application, "flux"
-set :repo_url, "git@bitbucket.org:flux-kenya/flux.git"
+set :application, "lisheleo"
+set :repo_url, "git@bitbucket.org:lisheleo/lisheleo.git"
 
 set :passenger_restart_with_touch, true
 
@@ -10,18 +10,12 @@ set :passenger_restart_with_touch, true
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/home/deploy/flux"
+set :deploy_to, "/home/deploy/lisheleo"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
-# You can configure the Airbrussh format using :format_options.
-# These are the defaults.
-# set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
-# 
-set :bundle_binstubs, nil
-set :linked_files, %w{config/database.yml config/secrets.yml config/initializers/devise.rb}
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle }
+
 
 # cap production deploy:upload_yml
 namespace :deploy do
@@ -31,10 +25,19 @@ namespace :deploy do
         execute "mkdir #{shared_path}/config -p"
         upload! StringIO.new(File.read("config/database.yml")), "#{shared_path}/config/database.yml"
         upload! StringIO.new(File.read("config/secrets.yml")), "#{shared_path}/config/secrets.yml"
+        upload! StringIO.new(File.read("config/initializers/devise.rb")), "#{shared_path}/config/initializers/devise.rb"
         # upload! StringIO.new(File.read("config/initializers/devise.rb}")), "#{shared_path}/config/initializers/devise.rb"
       end
     end
 end
+
+# You can configure the Airbrussh format using :format_options.
+# These are the defaults.
+# set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
+# 
+set :bundle_binstubs, nil
+set :linked_files, %w{config/database.yml config/secrets.yml config/initializers/devise.rb}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle }
 
 # ************************ uncomment for sidekiq
 

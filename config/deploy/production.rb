@@ -9,7 +9,7 @@
 
 set :stage, :production
 set :rails_env, :production
-server '165.227.160.87', user: 'deploy', roles: %w{web app db}
+server '104.248.143.45', user: 'deploy', roles: %w{web app db}
 
 # role-based syntax
 # ==================
