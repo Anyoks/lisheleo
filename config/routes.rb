@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :sms
   devise_for :admins
 
   authenticated :admin do
@@ -13,6 +14,6 @@ Rails.application.routes.draw do
 
   resources :connections
 
-  # root '/'
+  root 'connections#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
