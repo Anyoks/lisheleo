@@ -15,7 +15,13 @@ set :deploy_to, "/home/deploy/lisheleo"
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
-
+# You can configure the Airbrussh format using :format_options.
+# These are the defaults.
+# set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
+# 
+set :bundle_binstubs, nil
+set :linked_files, %w{config/database.yml config/secrets.yml config/initializers/devise.rb}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle }
 
 # cap production deploy:upload_yml
 namespace :deploy do
@@ -31,13 +37,7 @@ namespace :deploy do
     end
 end
 
-# You can configure the Airbrussh format using :format_options.
-# These are the defaults.
-# set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
-# 
-set :bundle_binstubs, nil
-set :linked_files, %w{config/database.yml config/secrets.yml config/initializers/devise.rb}
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle }
+
 
 # ************************ uncomment for sidekiq
 
