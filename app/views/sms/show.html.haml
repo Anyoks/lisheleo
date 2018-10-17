@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Message:
+  = @sms.message
+%p
+  %b Phone number:
+  = @sms.phone_number
+
+= link_to 'Edit', edit_sms_path(@sms)
+\|
+= link_to 'Back', sms_path
