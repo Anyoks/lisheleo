@@ -25,5 +25,8 @@ module Flux
         g.helper_specs    false
         g.template_engine :haml
     end
+
+    config.time_zone = "Nairobi"
+    config.active_record.default_timezone = :local
   end
 end
