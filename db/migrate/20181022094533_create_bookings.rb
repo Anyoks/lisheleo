@@ -1,7 +1,7 @@
 class CreateBookings < ActiveRecord::Migration[5.1]
   def change
     create_table :bookings, id: :uuid do |t|
-      t.time :time
+      t.datetime :time
       t.date :date
       t.string :description
       t.boolean :status, default: false
