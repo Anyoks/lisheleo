@@ -32,15 +32,42 @@ class Api::V1::SmsController < ActionController::API
 	protected
 
 	def book_instructions
-		render json: { sms: [success: true, message: "To book a consultation reply with: B# dd/mm time, first_name, last_name. e.g B# 12/2 9am John Doe", phone_number: "#{@sms.phone_number}"]}, status: :ok
+		render json: { sms: [
+			{
+
+				success: true, 
+				message: "To book a consultation reply with: B# dd/mm time, first_name, last_name. e.g B# 12/2 9am John Doe",
+				phone_number: "#{@sms.phone_number}"
+			}
+			
+			]
+		}, status: :ok
 	end
 
 	def successful_booking booking
-		render json: { sms: [success: true, message: "Thank you #{booking.client_first_name} for booking lishe leo. Your appointment is scheduled for #{booking.time.strftime("%A %d")} at  #{booking.time.strftime("%I:%M %P")}  ", phone_number: "#{@sms.phone_number}"]}, status: :ok
+		render json: { sms: [
+
+			{
+
+				success: true,
+				message: "Thank you #{booking.client_first_name} for booking lishe leo. Your appointment is scheduled for #{booking.time.strftime("%A %d")} at  #{booking.time.strftime("%I:%M %P")}  ", 
+				phone_number: "#{@sms.phone_number}"
+			}
+			
+			]
+		}, status: :ok
 	end
 
 	def failed_booking failed_booking
-		render json: { sms: [success: true, message: "Sorry the booking was not successful. Kindly check your booking details", phone_number: "#{@sms.phone_number}"]}, status: :ok
+		render json: { sms: [
+			{
+
+				success: true, 
+				message: "Sorry the booking was not successful. Kindly check your booking details", 
+				phone_number: "#{@sms.phone_number}"
+			}
+			
+		]}, status: :ok
 	end
 
 	def sms_params
