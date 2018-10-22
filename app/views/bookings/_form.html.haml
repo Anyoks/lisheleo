@@ -1,0 +1,12 @@
+= simple_form_for(@booking) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :time
+    = f.input :date
+    = f.input :description
+    = f.input :status
+    = f.input :confirm_status
+
+  .form-actions
+    = f.button :submit

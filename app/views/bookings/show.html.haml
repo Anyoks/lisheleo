@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Time:
+  = @booking.time
+%p
+  %b Date:
+  = @booking.date
+%p
+  %b Description:
+  = @booking.description
+%p
+  %b Status:
+  = @booking.status
+%p
+  %b Confirm status:
+  = @booking.confirm_status
+
+= link_to 'Edit', edit_booking_path(@booking)
+\|
+= link_to 'Back', bookings_path
