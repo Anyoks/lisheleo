@@ -1,7 +1,19 @@
 Rails.application.routes.draw do
   
+  resources :clients
+  resources :bookings
   resources :sms
   devise_for :admins
+
+  namespace :api do
+    namespace :v1 do
+      get '/sms', :to => 'sms#create'
+      post '/sms', :to => 'sms#create'
+      # resources :sms, only: [:create]
+      # get '/drivers/tuktuk_drivers'
+      # get '/drivers/bajaj_drivers'
+    end
+  end
 
   authenticated :admin do
     root 'connections#index', as: :authenticated_admin
