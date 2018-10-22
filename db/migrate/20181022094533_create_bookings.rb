@@ -4,9 +4,10 @@ class CreateBookings < ActiveRecord::Migration[5.1]
       t.time :time
       t.date :date
       t.string :description
-      t.bolean :status, default: false
+      t.boolean :status, default: false
       t.string :confirm_status
       t.uuid  :client_id, foreign_key: true
+      t.uuid  :sms_id, foreign_key: true
 
       t.timestamps
     end
