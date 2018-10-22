@@ -1,0 +1,2 @@
+class FailedSmsBooking < ApplicationRecord
+end
