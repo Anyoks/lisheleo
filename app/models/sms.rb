@@ -76,7 +76,8 @@ B# dd/mm 9:30pm Dennis Orina
 			save_params  = []
 
 			# create the client
-			
+			byebug
+
 			client				= Client.where( phone_number: "#{@phone_number}").first_or_initialize #Client.new( first_name: "#{first_name}", last_name: "#{last_name}", phone_number: "#{@phone_number}")
 			client.first_name   = first_name
 			client.last_name 	= last_name
@@ -88,9 +89,10 @@ B# dd/mm 9:30pm Dennis Orina
 			sms_data 	 = sms_params save_params
 
 			@sms  	 	 = Sms.new(sms_data)
-					
+					byebug
 			
 			if @sms.save!
+				byebug
 				return @sms
 			else
 				return false
@@ -150,7 +152,7 @@ B# dd/mm 9:30pm Dennis Orina
 		min  = data[1]
 		sec  = 00
 
-		time = Time.new(date.year, date.month, date.day, hrs, min)
+		time = Time.zone.local(date.year, date.month, date.day, hrs, min)
 		
 		return time
 	end
