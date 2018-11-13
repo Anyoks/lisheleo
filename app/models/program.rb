@@ -15,5 +15,10 @@
 
 class Program < ApplicationRecord
 
+	before_save { |program| 
+		program.name.nil? ?    program.name : program.name = program.name.downcase 
+		program.description.nil? ?  program.description : program.description = program.description.downcase 
+		program.sms_description.nil? ?   program.sms_description : program.sms_description = program.sms_description.downcase  }
+
 	has_many :available_times
 end
