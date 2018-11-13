@@ -95,7 +95,9 @@ ActiveRecord::Schema.define(version: 20181113113804) do
     t.string "name"
     t.text "description"
     t.string "sms_description"
-    t.boolean "parallel"
+    t.boolean "parallel", default: false
+    t.boolean "fixed", default: false
+    t.boolean "confirmation", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

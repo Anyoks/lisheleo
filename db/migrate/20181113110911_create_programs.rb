@@ -4,7 +4,9 @@ class CreatePrograms < ActiveRecord::Migration[5.1]
       t.string :name
       t.text :description
       t.string :sms_description
-      t.boolean :parallel
+      t.boolean :parallel, default: false
+      t.boolean :fixed, default: false
+      t.boolean :confirmation, default: false
 
       t.timestamps
     end
