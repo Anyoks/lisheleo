@@ -1,0 +1,11 @@
+= simple_form_for(@program) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :description
+    = f.input :sms_description
+    = f.input :parallel
+
+  .form-actions
+    = f.button :submit

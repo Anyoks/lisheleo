@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :available_times
+  resources :programs
   resources :clients
   resources :bookings
   resources :sms

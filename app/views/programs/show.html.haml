@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @program.name
+%p
+  %b Description:
+  = @program.description
+%p
+  %b Sms description:
+  = @program.sms_description
+%p
+  %b Parallel:
+  = @program.parallel
+
+= link_to 'Edit', edit_program_path(@program)
+\|
+= link_to 'Back', programs_path

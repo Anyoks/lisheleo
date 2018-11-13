@@ -1,0 +1,10 @@
+= simple_form_for(@available_time) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :day
+    = f.input :start_time
+    = f.input :end_time
+
+  .form-actions
+    = f.button :submit

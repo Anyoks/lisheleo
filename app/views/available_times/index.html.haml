@@ -1,0 +1,25 @@
+%h1 Listing available_times
+
+%table
+  %thead
+    %tr
+      %th Day
+      %th Start time
+      %th End time
+      %th
+      %th
+      %th
+
+  %tbody
+    - @available_times.each do |available_time|
+      %tr
+        %td= available_time.day
+        %td= available_time.start_time
+        %td= available_time.end_time
+        %td= link_to 'Show', available_time
+        %td= link_to 'Edit', edit_available_time_path(available_time)
+        %td= link_to 'Destroy', available_time, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Available time', new_available_time_path
