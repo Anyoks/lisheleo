@@ -5,7 +5,7 @@ class Api::V1::SmsController < ActionController::API
 
 		check = @sms.check_format
 
-		if check
+		if check == true
 
 			details 		= @sms.extract_details
 			booking 		= details.book_time_slot
@@ -15,7 +15,8 @@ class Api::V1::SmsController < ActionController::API
 			else
 				return failed_booking booking[1]
 			end
-			
+		elsif check == "inquiry"
+			return lishe_details
 		else
 
 			# @sms.save
@@ -32,11 +33,27 @@ class Api::V1::SmsController < ActionController::API
 	protected
 
 	def book_instructions
+		sms_message = "B1. Personalized Wellness\n B2. Therapeutic Massage \n B3. Keep Fit \n B4. Cancer support \n B5. Weight management "
 		render json: { sms: [
 			{
 
 				success: true, 
-				message: "To book a consultation reply with: B# dd/mm time, first_name, last_name. e.g B# 12/2 9am John Doe",
+				message: "To book a consultation reply with: B?# dd/mm time, first_name, last_name. e.g for Keep fit: B3# 12/2 9am John Doe. To get information on booking options reply with ?",
+				phone_number: "#{@sms.phone_number}"
+			}
+			
+			]
+		}, status: :ok
+	end
+
+	def lishe_details
+
+		book_details = "To book a consultation reply with: B?# dd/mm time, first_name, last_name. e.g for Keep fit: B3# 12/2 9am John Doe."
+		render json: { sms: [
+			{
+
+				success: true, 
+				message: "B1. Personalized Wellness\n B2. Therapeutic Massage \n B3. Keep Fit \n B4. Cancer support \n B5. Weight management. \n To get more details on each \n option, reply with B?# e.g For Keep fit: B3#. #{book_details}",
 				phone_number: "#{@sms.phone_number}"
 			}
 			
