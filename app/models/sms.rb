@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: sms
+#
+#  id           :uuid             not null, primary key
+#  message      :string
+#  phone_number :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  date         :date
+#  first_name   :string
+#  last_name    :string
+#  status       :boolean          default(FALSE)
+#  client_id    :uuid
+#  time         :datetime
+#
+
 class Sms < ApplicationRecord
 
 	# has_many :failed_bookings
@@ -51,6 +68,8 @@ B# dd/mm 9:30pm Dennis Orina
 			else
 				return false
 			end
+		elsif @text_message.include?('?')
+			return "inquiry"			
 		else
 
 			return false
@@ -203,7 +222,7 @@ B# dd/mm 9:30pm Dennis Orina
 		text_message  = self.message
 		phone_number = self.phone_number
 		
-		@text_message  = text_message.upcase.downcase!
+		@text_message  = text_message.upcase.downcase
 		@phone_number = phone_number
 	end
 
