@@ -8,6 +8,7 @@ class Api::V1::SmsController < ActionController::API
 		if check == true
 
 			details 		= @sms.extract_details
+
 			booking 		= details.book_time_slot
 
 			if  booking[0]
@@ -67,7 +68,7 @@ class Api::V1::SmsController < ActionController::API
 			{
 
 				success: true,
-				message: "Thank you #{booking.client_first_name} for booking lishe leo. Your appointment is scheduled for #{booking.time.strftime("%A %d")} at  #{booking.time.strftime("%I:%M %P")}  ", 
+				message: "Thank you #{booking.client_first_name} for booking #{booking.program.name}. Your appointment is scheduled for #{booking.time.strftime("%A %d")} at  #{booking.time.strftime("%I:%M %P")}  ", 
 				phone_number: "#{@sms.phone_number}"
 			}
 			
