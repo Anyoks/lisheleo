@@ -21,7 +21,7 @@ class Sms < ApplicationRecord
 
 	has_one :booking
 	belongs_to :client
-
+	belongs_to :program
 #  book
 #first_name
 #last_name
@@ -58,13 +58,17 @@ B# dd/mm 9:30pm Dennis Orina
 			split = @text_message.split('#')
 
 			if split.size == 2
-				#  ["tuesday", "9am", "Dennis", "Orina"]
-				if split[1].split(' ').size == 4
-					return true
+				# "B1"
+				if split[0].size == 2
+					#  ["tuesday", "9am", "Dennis", "Orina"]
+					if split[1].split(' ').size == 4
+						return true
+					else
+						return false
+					end
 				else
-					return false
+					return false #no program number
 				end
-				
 			else
 				return false
 			end
@@ -86,36 +90,45 @@ B# dd/mm 9:30pm Dennis Orina
 			
 			split = @text_message.split('#')
 
-			raw = split[1].split(' ')
+			code = split[0].upcase
 
-			date 		 = get_date raw[0]
-			time		 = get_time(date,raw[1])
-			first_name	 = raw[2]
-			last_name 	 = raw[3]
-			save_params  = []
-
-			# create the client
-			# byebug
-
-			client				= Client.where( phone_number: "#{@phone_number}").first_or_initialize #Client.new( first_name: "#{first_name}", last_name: "#{last_name}", phone_number: "#{@phone_number}")
-			client.first_name   = first_name
-			client.last_name 	= last_name
-			client.save
-
-
-			# ["phone_number", "message", "date", "time", "first_name", "last_name"] 
-			save_params << @phone_number << @text_message << date << time << first_name << last_name << client.id
-			sms_data 	 = sms_params save_params
-
-			@sms  	 	 = Sms.new(sms_data)
-					# byebug
+			program = Program.where(code: code).first
 			
-			if @sms.save!
+			# if Program is found
+			if program.present?
+				# ["B1", " 12/10/2018 9am dennis orina"] 
+				raw = split[1].split(' ')
+
+				date 		 = get_date raw[0]
+				time		 = get_time(date,raw[1])
+				first_name	 = raw[2]
+				last_name 	 = raw[3]
+				program_id 	 = program.id
+				save_params  = []
+
+				# create the client
 				# byebug
-				return @sms
-			else
-				return false
-			end
+
+				client				= Client.where( phone_number: "#{@phone_number}").first_or_initialize #Client.new( first_name: "#{first_name}", last_name: "#{last_name}", phone_number: "#{@phone_number}")
+				client.first_name   = first_name
+				client.last_name 	= last_name
+				client.save
+
+
+				# ["phone_number", "message", "date", "time", "first_name", "last_name","program_id"] 
+				save_params << @phone_number << @text_message << date << time << first_name << last_name << client.id << program_id
+				sms_data 	 = sms_params save_params
+
+				@sms  	 	 = Sms.new(sms_data)
+						
+				
+				if @sms.save!
+					# byebug
+					return @sms
+				else
+					return false
+				end
+			end			
 		else
 			return false
 		end
@@ -133,14 +146,17 @@ B# dd/mm 9:30pm Dennis Orina
 		confirm_status 		= "pending" # status can be 1. pending 2. confirmed 3. cancelled
 		description			= "Booking and appointment"
 		sms_id				= self.id
+		program_id			= self.program_id
+
 		# byebug
 
 		# add validations.....check the date and the time, for any conflicting bookings before save
 
-		booking = Booking.new( time: time, date: date, client_id: client, confirm_status: confirm_status, description: description, sms_id: sms_id)
-
+		booking = Booking.new( time: time, date: date, client_id: client, confirm_status: confirm_status, description: description, sms_id: sms_id, program_id: program_id)
+		# byebug
 		if booking.save
-
+			end_time 			= booking.time + booking.program.duration_in_seconds 
+			booking.update_attributes(end_time: end_time)
 			return true, booking
 		else
 			description			= "the particular error that caused this booking to fail"
@@ -227,7 +243,7 @@ B# dd/mm 9:30pm Dennis Orina
 	end
 
 	def sms_params data
-		name = ["phone_number", "message", "date", "time", "first_name", "last_name", "client_id"] 
+		name = ["phone_number", "message", "date", "time", "first_name", "last_name", "client_id","program_id"] 
 		hash = Hash[*name.zip(data).flatten]
 		return hash
 	end
