@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181113113804) do
+ActiveRecord::Schema.define(version: 20181116112101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 20181113113804) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "time"
+    t.integer "program_id"
+    t.datetime "end_time"
   end
 
   create_table "clients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -100,6 +102,8 @@ ActiveRecord::Schema.define(version: 20181113113804) do
     t.boolean "confirmation", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "duration"
+    t.string "code"
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -117,6 +121,8 @@ ActiveRecord::Schema.define(version: 20181113113804) do
     t.boolean "status", default: false
     t.uuid "client_id"
     t.datetime "time"
+    t.string "code"
+    t.integer "program_id"
   end
 
 end
