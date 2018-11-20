@@ -152,16 +152,23 @@ B# dd/mm 9:30pm Dennis Orina
 
 		# add validations.....check the date and the time, for any conflicting bookings before save
 
-		booking = Booking.new( time: time, date: date, client_id: client, confirm_status: confirm_status, description: description, sms_id: sms_id, program_id: program_id)
+		booking 			= Booking.new( time: time, date: date, client_id: client, confirm_status: confirm_status, description: description, sms_id: sms_id, program_id: program_id)
+		booking.end_time 	= booking.time + booking.program.duration_in_seconds 
 		# byebug
-		if booking.save
-			end_time 			= booking.time + booking.program.duration_in_seconds 
-			booking.update_attributes(end_time: end_time)
-			return true, booking
+		eligible  			= booking.check_booking_eligibility
+		if eligible[0]
+			# if booking.save
+			# 	# end_time 			= booking.time + booking.program.duration_in_seconds 
+			# 	# booking.update_attributes(end_time: end_time)
+			# 	return true, booking
+			# else
+			# 	description			= "the particular error that caused this booking to fail"
+			# 	failed_booking = FailedBooking.new( time: time, date: date, client_id: client, description: description, sms_id: sms_id)
+			# 	return false, failed_booking
+			# end
+			return eligible[1]
 		else
-			description			= "the particular error that caused this booking to fail"
-			failed_booking = FailedBooking.new( time: time, date: date, client_id: client, description: description, sms_id: sms_id)
-			return false, failed_booking
+			return eligible[1]
 		end
 	end
 
