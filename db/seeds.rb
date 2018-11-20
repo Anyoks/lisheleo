@@ -53,7 +53,7 @@ require 'csv'
 # 	# puts row.to_hash
 
 # 	prog_name 			= row['Program'].downcase
-# 	day			 		= row['Day']
+# 	day			 		= row['Day'].strip
 # 	start_time_raw 		= row['Start time']
 # 	end_time_raw	 	= row['End time']
 
