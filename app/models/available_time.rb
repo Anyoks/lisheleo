@@ -33,4 +33,9 @@ class AvailableTime < ApplicationRecord
 	end
 
 
+	# returns ending time - program duration to make sure tht last booking does no ve a few minutes
+	def latest_booking_time
+		time = (self.end_time - self.program.duration_in_seconds).strftime("%I:%M %p")
+		return time
+	end
 end
