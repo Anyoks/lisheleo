@@ -202,11 +202,11 @@ B# dd/mm 9:30pm Dennis Orina
 	def get_hrs_and_min(string)
 		
 		data = string
-		if data.include?('a')
+		if data.include?('a') || data.include?('A')
 			time = get_24h_for_am(data)
 
 			return time
-		elsif data.include?('p')
+		elsif data.include?('p') || data.include?('P')
 			time = get_24h_for_pm(data)
 			return time 
 		else
