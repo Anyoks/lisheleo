@@ -84,6 +84,7 @@ class Program < ApplicationRecord
 		return sessions		
 	end
 
+# 	revise this to inlude double monday or tuesdays etc 
 	def sessions_for_day day
 		time = self.available_times.where(day: day).first
 
@@ -183,5 +184,136 @@ class Program < ApplicationRecord
 		end
 		
 		return starting_times_for_each_session
+	end
+
+
+	# returns starting times with dates for this whole week regardless of when you are querying
+	# that means, when you query on Friday you will get results for the past monday not the next.
+	def get_times_and_dates
+		starting_times_without_dates = self.get_starting_times_for_sessions
+
+		arr_of_dated_days 	= []
+
+		# collect all keys so that I can modify and add date
+		starting_times_without_dates.keys.each { |key|  arr_of_dated_days << key }
+
+		
+		# add date to day now
+		arr_of_dated_days.collect! do |day|
+			date 		= (self.get_date_for day).day #if I want next week's dates, this is where I need to change, get_date_for to get_date_for_next_week
+			dated_day 	= day + ' ' + date.to_s
+
+			# replace the array value
+			day = dated_day
+		end
+
+		# loop through the dated array
+		arr_of_dated_days.each do |dated_day|
+			# get the hash keys to search through 
+			starting_times_without_dates.keys.select {    |key| 
+				# replace with the new dated days
+				if key.include?(dated_day.split[0])
+					hash_key_to_alter = key
+					starting_times_without_dates[dated_day] = starting_times_without_dates.delete(hash_key_to_alter)
+				end
+			}
+		end
+
+		return starting_times_without_dates  
+	end
+
+	# get tomorrow and future dates, excludin past days' dates
+	def get_only_future_days
+		starting_times_without_dates = self.get_starting_times_for_sessions
+
+		arr_of_dated_days 	= []
+
+		# collect all keys so that I can modify and add date
+		starting_times_without_dates.keys.each { |key|  arr_of_dated_days << key }
+
+		
+		# add date to day now
+		arr_of_dated_days.collect! do |day|
+			date        = Date.today >= self.get_date_for(day) ? (self.get_date_for_next_week day).day : (self.get_date_for day).day #get next weeks dates only
+			dated_day 	= day + ' ' + date.to_s
+
+			# replace the array value
+			day = dated_day
+		end
+
+		# loop through the dated array
+		arr_of_dated_days.each do |dated_day|
+			# get the hash keys to search through 
+			starting_times_without_dates.keys.select {    |key| 
+				# replace with the new dated days
+				if key.include?(dated_day.split[0])
+					hash_key_to_alter = key
+					starting_times_without_dates[dated_day] = starting_times_without_dates.delete(hash_key_to_alter)
+				end
+			}
+		end
+
+		return starting_times_without_dates  
+	end
+
+	# returns only next weeks dates
+	def get_only_next_weeks_dates
+		starting_times_without_dates = self.get_starting_times_for_sessions
+
+		arr_of_dated_days 	= []
+
+		# collect all keys so that I can modify and add date
+		starting_times_without_dates.keys.each { |key|  arr_of_dated_days << key }
+
+		
+		# add date to day now
+		arr_of_dated_days.collect! do |day|
+			date        = (self.get_date_for_next_week day).day #get next weeks dates only
+			dated_day 	= day + ' ' + date.to_s
+
+			# replace the array value
+			day = dated_day
+		end
+
+		# loop through the dated array
+		arr_of_dated_days.each do |dated_day|
+			# get the hash keys to search through 
+			starting_times_without_dates.keys.select {    |key| 
+				# replace with the new dated days
+				if key.include?(dated_day.split[0])
+					hash_key_to_alter = key
+					starting_times_without_dates[dated_day] = starting_times_without_dates.delete(hash_key_to_alter)
+				end
+			}
+		end
+
+		return starting_times_without_dates  
+	end
+
+	# this week
+	def get_date_for day
+		days = { "Monday" => 1 , "Tuesday" => 2 ,  "Wedneday" => 3 , "Thursday" => 4 , "Friday" => 5 }
+
+		diff = days[day] - Date.today.wday
+		date = advance_date diff
+		return date
+	end
+
+	# next week
+	def get_date_for_next_week day
+		days = { "Monday" => 0 , "Tuesday" => 1 ,  "Wedneday" => 2, "Thursday" => 3 , "Friday" => 4 }
+
+		diff = days[day] #- Date.today.wday
+		date = next_week_advance_date diff
+		return date
+	end
+
+private
+	def advance_date diff
+		return Date.today.advance(days: diff)
+	end
+
+	def next_week_advance_date day
+		return Date.today.next_week.advance(days: day)
 	end
 end
