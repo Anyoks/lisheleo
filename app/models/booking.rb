@@ -77,7 +77,7 @@ class Booking < ApplicationRecord
 
 			# check if the user's proposed booking time is within the allowed booking hours
 			if Time.zone.parse(self.ftime) >= Time.zone.parse(program_start_time) && Time.zone.parse(self.f_end_time) < Time.zone.parse(program_end_time)
-				byebug
+				# byebug
 				# # check if a booking already exists for that particular time
 				# 
 				# check if there's a booking for this program on this date
@@ -111,10 +111,6 @@ class Booking < ApplicationRecord
 
 						counter = 0
 
-						# loop do
-							
-						# end
-
 						while counter <= today.size
 							
 							if bookings.where(end_time: Time.zone.parse(today[counter])).present?
@@ -140,7 +136,7 @@ class Booking < ApplicationRecord
 									# check the time
 									if Time.zone.now > Time.zone.parse(today[counter])
 										# now we can pick a time and book a slot or suggest a time slot to the user
-										puts "Here today1  #{today}  counter1 #{counter}"
+										# puts "Here today1  #{today}  counter1 #{counter}"
 										# return true this is a successful booking
 										# Okay we can book
 										# return true, today[counter] #{}"This time slot is present"

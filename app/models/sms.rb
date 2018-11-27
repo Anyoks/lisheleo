@@ -53,7 +53,7 @@ B# dd/mm 9:30pm Dennis Orina
 
 		self.standardize_sms
 
-		if @text_message.include?('#')
+		if @text_message.include?('#') && @text_message.exclude?('?') 
 
 			split = @text_message.split('#')
 
@@ -72,10 +72,34 @@ B# dd/mm 9:30pm Dennis Orina
 			else
 				return false
 			end
-		elsif @text_message.include?('?')
+		elsif @text_message.include?('?') #&& @text_message.include?('#')
 			# process inquiries such as ?B1 or ?B2 etc for more details on program days and times
-			
-			return "inquiry"			
+			if @text_message.size == 3
+				# byebug
+				# good inqiry
+				#SMS should be something like "?B1"
+				split = @text_message.split('?') # returns ["", "B1"] 
+
+				code  = split[1].upcase #"B1"
+				program = Program.where(code: code)
+				
+
+				if program.present?
+					# return program availability details
+					
+					program         = program.first
+					self.program    = program
+					times_and_dates = program.get_times_and_dates # returns a hash
+					return "inquiry", times_and_dates
+				else
+					# return No such program, try again
+					return "inquiry","Program not availble", false
+				end
+				
+			else
+				# wrong inquiry, sugest inquiry instructions
+				return "inquiry", "Wrong message format"	
+			end
 		else
 
 			return false
@@ -160,18 +184,18 @@ B# dd/mm 9:30pm Dennis Orina
 		eligible  			= booking.check_booking_eligibility
 		if eligible.class != Array
 			# successful booking
-			# if booking.save
+			if booking.save
 				# here eligible[1] is true
 				return eligible, booking
-			# else
-				# return false, "error saving the booking"	
-			# end
+			 else
+				return false, "error saving the booking"	
+			end
 		else
 			if eligible[0]
 				# there's some system gen suggestions
 				description			= "suggest #{eligible[1]}"
 				failed_booking = FailedBooking.new( time: time, date: date, client_id: client, description: description, sms_id: sms_id)
-			    # failed_booking.save
+			    failed_booking.save
 				#return false, failed_booking
 				# here eligible[1] is a hash
 				return false, eligible[1]
@@ -179,7 +203,7 @@ B# dd/mm 9:30pm Dennis Orina
 				# error getting suggestions
 				description			= "error #{eligible[1]}"
 				failed_booking = FailedBooking.new( time: time, date: date, client_id: client, description: description, sms_id: sms_id)
-				# failed_booking.save
+				failed_booking.save
 				# here eligible[1] is a text
 				return false, eligible[1]
 			end
@@ -206,8 +230,18 @@ B# dd/mm 9:30pm Dennis Orina
 			end
 			messages << "#{key}, #{time}"
 		end
+		full_text = ""
+		if messages.size > 1
+			messages.each do |sms|
+				full_text = full_text + sms
+			end
+			return full_text
+		else
+			full_text = messages[0]
+			return full_text
+		end
 
-		return messages
+		# return messages
 	end
 
 
