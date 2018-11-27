@@ -38,6 +38,10 @@ class Booking < ApplicationRecord
 		(self.time + self.program.duration_in_seconds).strftime("%I:%M %p")
 	end
 
+	def ftime
+		self.time.strftime("%I:%M %p")
+	end
+
 	# what day is it?
 	def day
 		self.time.strftime("%A")
@@ -69,8 +73,11 @@ class Booking < ApplicationRecord
 			program_start_time = program_time.split('-')[0]
 			program_end_time = program_time.split('-')[1]
 
+
+
 			# check if the user's proposed booking time is within the allowed booking hours
-			if self.time >= Time.zone.parse(program_start_time) || self.end_time < Time.zone.parse(program_end_time)
+			if Time.zone.parse(self.ftime) >= Time.zone.parse(program_start_time) && Time.zone.parse(self.f_end_time) < Time.zone.parse(program_end_time)
+				byebug
 				# # check if a booking already exists for that particular time
 				# 
 				# check if there's a booking for this program on this date
@@ -88,7 +95,7 @@ class Booking < ApplicationRecord
 						# wed, 3pm etc
 						
 						# return false, "This day is fully booked"
-						return available_slots_this_week
+						return available_slots_this_week#, "This day is fully booked"
 					else
 						# check if the users' time slot is already taken
 						#check the start times for this session and tell give the user a choice if thier's
@@ -113,32 +120,62 @@ class Booking < ApplicationRecord
 							if bookings.where(end_time: Time.zone.parse(today[counter])).present?
 								# this time slot has been taken.
 								# return suggested time slots for today
-								puts "Here today  #{today}  counter #{counter}"
-								return false , today[counter+1]# "This slot is taken but there's one available today"
-								break
-							else
-								# now we can pick a time and book a slot or suggest a time slot to the user
-								puts "Here today1  #{today}  counter1 #{counter}"
-								return true, today[counter] #{}"This time slot is present"
-								break
+								if self.date > Date.today 
+									if Time.zone.now > Time.zone.parse(today[counter+1])
+										puts "Here today  #{today}  counter #{counter}"
+										return true , today[counter+1]# "This slot is taken but there's one available today"
+										break
+									else
+										# you cannot book a passed time
+										return available_slots_this_week
+									end
+								else
+									# you cannot book a passed date
+									# return suggested booking dates
+									return available_slots_this_week 
+								end
+							else								
+								# if the available time is passed, then don't suggest it.
+								if self.date > Date.today 
+									# check the time
+									if Time.zone.now > Time.zone.parse(today[counter])
+										# now we can pick a time and book a slot or suggest a time slot to the user
+										puts "Here today1  #{today}  counter1 #{counter}"
+										# return true this is a successful booking
+										# Okay we can book
+										# return true, today[counter] #{}"This time slot is present"
+										return true
+										break
+									else
+										# you cannot book a passed time
+										return available_slots_this_week
+									end
+								else
+									# you cannot book a passed date
+									# return suggested booking dates
+									return available_slots_this_week 
+								end	
 							end
 
 							counter +=1
-						end
-						# will this where clause bring times from the past? 
-												
+						end				
 					end
 				else
-					return true, "there are no booking today You can book successfully"
+					# return true, this is a successful booking
+					# return true, "there are no booking today You can book successfully"
+					return true
 				end
 
 				# return true
 			else
-				return false," time is out of range, either too early or too late."
+				# return available days for this program
+				# return false," time is out of range, either too early or too late."
+				return available_slots_this_week
 			end
 		else
-
-			return false, "Picked the wrong day"
+			# return available days for this program
+			# return false, "Picked the wrong day"
+			return available_slots_this_week
 		end
 	end
 
@@ -149,11 +186,12 @@ class Booking < ApplicationRecord
 
 		# starting date is today's date
 		
+		advance = advance_date
 
 		total_bookings_possible = program.week_max_bookings #possible bookings for this program
 
 
-		if advance_date.class.name != "Array"
+		if advance.class.name != "Array"
 
 			this_week_bookings = program.bookings.where(date: Date.today..advance_date )  #put a date range for this week and next week
 			
@@ -161,7 +199,7 @@ class Booking < ApplicationRecord
 				
 				# "This week is fully booked"
 				# return next weeks available time slots
-				return false, self.program.get_only_next_weeks_dates
+				return true, self.program.get_only_next_weeks_dates
 			else
 				# return the available slot start_times, days and dates. i,e Monday 12th 9am
 				return true ,self.program.get_only_future_days
@@ -182,12 +220,12 @@ class Booking < ApplicationRecord
 		program  = self.program
 
 		# starting date is today's date
-		
+		advance = next_week_advance_date
 
 		total_bookings_possible = program.week_max_bookings #possible bookings for this program
 
 
-		if next_week_advance_date.class.name != "Array"
+		if advance.class.name != "Array"
 
 			next_week_bookings = program.bookings.where(date: Date.today.next_week..next_week_advance_date )  #put a date range for this week and next week
 			
@@ -195,7 +233,7 @@ class Booking < ApplicationRecord
 				
 				# return 0, "This week is fully booked"
 				# return next weeks available time slots
-				return false, self.program.get_only_next_weeks_dates # get slots for the other week
+				return true, self.program.get_only_next_weeks_dates # get slots for the other week
 			else
 				# return the available slot start_times, days and dates. i,e Monday 12th 9am
 				return true, self.program.get_only_next_weeks_dates

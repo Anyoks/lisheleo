@@ -14,7 +14,13 @@ class Api::V1::SmsController < ActionController::API
 			if  booking[0]
 				return successful_booking booking[1]
 			else
-				return failed_booking booking[1]
+				# here booking one could be a hash with suggestions or a text
+				if booking[1].class == Hash
+					message = @sms.generate_sms booking[1]
+					return failed_booking message
+				else
+					return failed_booking booking[1]
+				end
 			end
 		elsif check == "inquiry"
 			return lishe_details
@@ -76,12 +82,12 @@ class Api::V1::SmsController < ActionController::API
 		}, status: :ok
 	end
 
-	def failed_booking failed_booking
+	def failed_booking message
 		render json: { sms: [
 			{
 
 				success: true, 
-				message: "Sorry the booking was not successful. Kindly check your booking details", 
+				message: "Sorry the booking was not successful. We suggest #{message[0]} Kindly try again", 
 				phone_number: "#{@sms.phone_number}"
 			}
 			

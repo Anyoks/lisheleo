@@ -73,6 +73,8 @@ B# dd/mm 9:30pm Dennis Orina
 				return false
 			end
 		elsif @text_message.include?('?')
+			# process inquiries such as ?B1 or ?B2 etc for more details on program days and times
+			
 			return "inquiry"			
 		else
 
@@ -116,7 +118,7 @@ B# dd/mm 9:30pm Dennis Orina
 
 
 				# ["phone_number", "message", "date", "time", "first_name", "last_name","program_id"] 
-				save_params << @phone_number << @text_message << date << time << first_name << last_name << client.id << program_id
+				save_params << @phone_number << @text_message << date << time << first_name << last_name << client.id << program_id << code
 				sms_data 	 = sms_params save_params
 
 				@sms  	 	 = Sms.new(sms_data)
@@ -156,21 +158,77 @@ B# dd/mm 9:30pm Dennis Orina
 		booking.end_time 	= booking.time + booking.program.duration_in_seconds 
 		# byebug
 		eligible  			= booking.check_booking_eligibility
-		if eligible[0]
+		if eligible.class != Array
+			# successful booking
 			# if booking.save
-			# 	# end_time 			= booking.time + booking.program.duration_in_seconds 
-			# 	# booking.update_attributes(end_time: end_time)
-			# 	return true, booking
+				# here eligible[1] is true
+				return eligible, booking
 			# else
-			# 	description			= "the particular error that caused this booking to fail"
-			# 	failed_booking = FailedBooking.new( time: time, date: date, client_id: client, description: description, sms_id: sms_id)
-			# 	return false, failed_booking
+				# return false, "error saving the booking"	
 			# end
-			return eligible[1]
 		else
-			return eligible[1]
+			if eligible[0]
+				# there's some system gen suggestions
+				description			= "suggest #{eligible[1]}"
+				failed_booking = FailedBooking.new( time: time, date: date, client_id: client, description: description, sms_id: sms_id)
+			    # failed_booking.save
+				#return false, failed_booking
+				# here eligible[1] is a hash
+				return false, eligible[1]
+			else
+				# error getting suggestions
+				description			= "error #{eligible[1]}"
+				failed_booking = FailedBooking.new( time: time, date: date, client_id: client, description: description, sms_id: sms_id)
+				# failed_booking.save
+				# here eligible[1] is a text
+				return false, eligible[1]
+			end
 		end
 	end
+
+	# {"Tuesday 4"=>["02:00 PM ", "02:50 PM"], "Thursday 29"=>["08:30 AM "]}
+	def generate_sms hash
+		messages = []
+		hash.each do |key, value|
+			puts "#{value}"
+			time = ""
+			i = 0
+			value.each_with_index do |t,index|
+				time = time + t.to_s
+				# if the next array item is the last item, add an & else put a coma unless there's only one item
+				if (index + 1 == value.size - 1)
+					time = time + ' & '
+				elsif value.size < 2
+					time = time 
+				else
+					time = time + ', '
+				end
+			end
+			messages << "#{key}, #{time}"
+		end
+
+		return messages
+	end
+
+
+	def get_code
+		if self.code.nil?
+			split = self.message.split('#')
+			if split.size == 2
+				code = split[0].upcase
+				program = Program.where(code: code).first.id
+				# self.code = code
+				# self.program = program
+				self.update_attributes(code: code, program_id: program )
+			else
+				puts "no Code"
+			end
+		else
+			puts "Coded"
+		end
+	end
+	
+	
 
 	def get_date string
 		day 	 = string.split('/')[0].to_i
@@ -250,7 +308,7 @@ B# dd/mm 9:30pm Dennis Orina
 	end
 
 	def sms_params data
-		name = ["phone_number", "message", "date", "time", "first_name", "last_name", "client_id","program_id"] 
+		name = ["phone_number", "message", "date", "time", "first_name", "last_name", "client_id","program_id", "code"] 
 		hash = Hash[*name.zip(data).flatten]
 		return hash
 	end
