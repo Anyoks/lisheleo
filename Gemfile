@@ -93,3 +93,7 @@ gem 'bootstrap-sass' #enables bootstrap in te app
 gem 'paperclip'
 # dealing with forms
 gem 'simple_form', '~> 3.5'
+# fullcalendar fem
+gem 'fullcalendar-rails'
+# full calendar
+gem 'momentjs-rails'

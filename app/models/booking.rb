@@ -80,9 +80,9 @@ class Booking < ApplicationRecord
 				# byebug
 				# # check if a booking already exists for that particular time
 				# 
-				# check if there's a booking for this program on this date
-				bookings = Booking.where(date: self.date, program_id: self.program.id)
-
+				# check if there's a booking for this program on this date & time
+				bookings = Booking.where(date: self.date, time: self.time ,program_id: self.program.id)
+				
 				# check each bookings time
 				if bookings.present?
 					
@@ -110,7 +110,7 @@ class Booking < ApplicationRecord
 						today    = checking[self.day] # e.g ["02:00 PM ", "02:50 PM"] 
 
 						counter = 0
-
+						# byebug
 						while counter <= today.size
 							
 							if bookings.where(end_time: Time.zone.parse(today[counter])).present?
@@ -134,14 +134,25 @@ class Booking < ApplicationRecord
 								# if the available time is passed, then don't suggest it.
 								if self.date > Date.today 
 									# check the time
+									# byebug
 									if Time.zone.now > Time.zone.parse(today[counter])
+										# byebug
 										# now we can pick a time and book a slot or suggest a time slot to the user
 										# puts "Here today1  #{today}  counter1 #{counter}"
 										# return true this is a successful booking
 										# Okay we can book
 										# return true, today[counter] #{}"This time slot is present"
-										return true
-										break
+
+										# check if it first exists in the db
+										if Booking.where(end_time: self.time, program_id: self.program.id).count > 0
+											# such a booking exists, suggest another time
+											return available_slots_this_week
+										else
+											return true
+											break
+										end
+
+										
 									else
 										# you cannot book a passed time
 										return available_slots_this_week
@@ -175,6 +186,7 @@ class Booking < ApplicationRecord
 		end
 	end
 
+	# try suggesting times without the booking time that failed.
 	def available_slots_this_week
 		days 	 = self.program.days #.include?(self.day)
 		bookings = Booking.where(date: self.date, program_id: self.id)

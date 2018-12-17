@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'dashboard', :to => 'dashboard#index'
+
   resources :available_times
   resources :programs
   resources :clients
@@ -18,7 +20,7 @@ Rails.application.routes.draw do
   end
 
   authenticated :admin do
-    root 'connections#index', as: :authenticated_admin
+    root 'admin/dashboard#index', as: :authenticated_admin
   end
 
    devise_scope :admin do
@@ -28,6 +30,6 @@ Rails.application.routes.draw do
 
   resources :connections
 
-  root 'connections#index'
+  root 'dashboard#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

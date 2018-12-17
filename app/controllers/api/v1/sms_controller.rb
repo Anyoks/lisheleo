@@ -150,7 +150,7 @@ class Api::V1::SmsController < ActionController::API
 			{
 
 				success: true, 
-				message: "Sorry the booking was not successful. We suggest #{message} Kindly check your dates & try again", 
+				message: "Sorry the booking was not successful. We suggest you pick another time slot, #{message} Kindly check your dates & try again", 
 				phone_number: "#{@sms.phone_number}"
 			}
 			

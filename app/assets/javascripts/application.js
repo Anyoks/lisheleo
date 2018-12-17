@@ -16,6 +16,36 @@
 //= require rails-ujs
 //= require turbolinks
 //= require chart
+//= require moment
+//= require fullcalendar
 //= require app
 //= require_tree .
 
+// function eventCalendar() {
+//     return $('#calendar').fullCalendar({
+//         events: '/bookings.json'
+//     });
+//   };
+  
+//   function clearCalendar() {
+//     $('#calendar').fullCalendar('delete'); 
+//     $('#calendar').html('');
+//   };
+
+$(function() {
+    $('#calendar').fullCalendar(
+       
+        {
+            header: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'month,basicWeek,basicDay'
+            },
+            // defaultView: 'agendaWeek', // changing view to agenda view    
+            aspectRatio: 1.8,
+            events: '/dashboard.json',
+            textColor: 'white'   
+        }   
+    );
+
+})

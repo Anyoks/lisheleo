@@ -1,0 +1,66 @@
+.row
+  .col-xs-12
+    .box
+      .box-header
+        %h3.box-title Bookings
+        .box-tools.pull-right
+          .digg_pagination
+            -# = will_paginate establishments 
+      / /.box-header
+      .box-body
+        #example1_wrapper.dataTables_wrapper.form-inline.dt-bootstrap
+          .row
+            %br
+          .row
+            .col-sm-12
+              %table#example1.table.table-bordered.table-striped.dataTable{"aria-describedby" => "example1_info", :role => "grid"}
+                %thead
+                  %tr{:role => "row"}
+                    %th.sorting_asc{"aria-controls" => "example1", "aria-label" => "Rendering engine: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :style => "width: 182px;", :tabindex => "0"} Booking Time
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Browser: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 100px;", :tabindex => "0"} Date
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Platform(s): activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 80px;", :tabindex => "0"} Desc
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Engine version: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 156px;", :tabindex => "0"} Status
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Engine version: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 80px;", :tabindex => "0"} Confirmation Status
+                    / %th.sorting{"aria-controls" => "example1", "aria-label" => "Engine version: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 156px;", :tabindex => "0"} Logo
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 250px;", :tabindex => "0"} Options
+                %tbody
+                  - bookings.each do |booking|
+
+                    %tr{:class => "#{cycle('even', 'odd')}"}
+                      %td.sorting_1=  booking.time
+                      %td= booking.date
+                      %td= booking.description
+                      %td= booking.status
+                      %td= booking.confirm_status
+                      / %td= image_tag establishment.logo.url(:small)
+                      %td 
+                        -if current_admin && current_admin.is_moderator?
+                          = link_to 'Show', booking, class: "label label-warning"
+                          = link_to 'Edit', edit_booking_path(booking), class: "label label-default"
+                         
+                          -# = link_to 'Edit', edit_admin_establishment_path(establishment), class: "label label-default"
+                          -# = link_to "Details", admin_establishment_path(establishment), class: "label label-warning"                         
+                          -# = link_to "Images", admin_establishment_pictures_path(establishment), class: "label label-success"
+                        -elsif current_admin && current_admin.is_admin?
+                          = link_to 'Show', booking, class: "label label-warning"
+                          = link_to 'Edit', edit_booking_path(booking), class: "label label-default"
+                          = link_to 'Destroy', booking, method: :delete, data: { confirm: 'Are you sure?' }, class: "label label-danger"
+
+                %tfoot
+                  %tr
+                    %th{:colspan => "1", :rowspan => "1"} Booking Time
+                    %th{:colspan => "1", :rowspan => "1"} Date
+                    %th{:colspan => "1", :rowspan => "1"} Desc
+                    %th{:colspan => "1", :rowspan => "1"} Status
+                    %th{:colspan => "1", :rowspan => "1"} Confirmation Status
+                    %th{:colspan => "1", :rowspan => "1"} Options
+          .row
+            .col-sm-5
+              .page_info
+                -# = page_entries_info establishments
+            .col-sm-7
+              .digg_pagination
+                -# = will_paginate establishments 
+      / /.box-body
+    / /.box
+  / /.col

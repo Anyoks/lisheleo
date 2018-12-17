@@ -1,29 +1,37 @@
+.col-md-9
+  #calendar
+
 %h1 Listing bookings
 
-%table
-  %thead
-    %tr
-      %th Time
-      %th Date
-      %th Description
-      %th Status
-      %th Confirm status
-      %th
-      %th
-      %th
 
-  %tbody
-    - @bookings.each do |booking|
-      %tr
-        %td= booking.time
-        %td= booking.date
-        %td= booking.description
-        %td= booking.status
-        %td= booking.confirm_status
-        %td= link_to 'Show', booking
-        %td= link_to 'Edit', edit_booking_path(booking)
-        %td= link_to 'Destroy', booking, method: :delete, data: { confirm: 'Are you sure?' }
 
-%br
+#partial_page
+  =render "bookings/table", bookings: @bookings#the table that was previously here was extracted to the partial to be DRY. seems like I needed it more than I thought! :-)
+
+-# %table
+-#   %thead
+-#     %tr
+-#       %th Time
+-#       %th Date
+-#       %th Description
+-#       %th Status
+-#       %th Confirm status
+-#       %th
+-#       %th
+-#       %th
+
+-#   %tbody
+-#     - @bookings.each do |booking|
+-#       %tr
+-#         %td= booking.time
+-#         %td= booking.date
+-#         %td= booking.description
+-#         %td= booking.status
+-#         %td= booking.confirm_status
+-#         %td= link_to 'Show', booking
+-#         %td= link_to 'Edit', edit_booking_path(booking)
+-#         %td= link_to 'Destroy', booking, method: :delete, data: { confirm: 'Are you sure?' }
+
+-# %br
 
 = link_to 'New Booking', new_booking_path

@@ -46,6 +46,16 @@ class Admin < ApplicationRecord
 		self.role ||= Role.find_by_name('moderator') 
 	end
 
+	def is_moderator?
+		if self.role.nil?
+			false
+		elsif self.role.name == "moderator"
+			true
+		else
+			false
+		end
+	end
+
 	def make_admin
 		self.update_attributes :role_id => 2
 	end

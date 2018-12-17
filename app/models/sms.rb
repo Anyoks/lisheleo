@@ -182,12 +182,14 @@ B# dd/mm 9:30pm Dennis Orina
 		booking.end_time 	= booking.time + booking.program.duration_in_seconds 
 		# byebug
 		eligible  			= booking.check_booking_eligibility
+		# byebug
 		if eligible.class != Array
 			# successful booking
 			if booking.save
 				# here eligible[1] is true
 				return eligible, booking
 			 else
+				# such a booking exists, we should send apropriate message
 				return false, "error saving the booking"	
 			end
 		else
