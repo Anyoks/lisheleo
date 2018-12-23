@@ -97,3 +97,5 @@ gem 'simple_form', '~> 3.5'
 gem 'fullcalendar-rails'
 # full calendar
 gem 'momentjs-rails'
+# drag and drop
+gem 'jquery-ui-rails'
