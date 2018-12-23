@@ -33,9 +33,9 @@ protected
   def after_sign_in_path_for(resource)
 
 	if current_admin.is_admin?
-	  session["user_return_to"] || "/bajajs" #user_index_path
+	  session["user_return_to"] || "/dashboard" #user_index_path
 	else
-	  "/bajajs"
+	  "/dashboard"
 	end
   end
 
