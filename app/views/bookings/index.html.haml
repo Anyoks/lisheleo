@@ -3,6 +3,7 @@
 
 %h1 Listing bookings
 
+#remote_container
 
 
 #partial_page
@@ -34,4 +35,4 @@
 
 -# %br
 
-= link_to 'New Booking', new_booking_path
+= link_to 'New Booking', new_booking_path, :remote => true
