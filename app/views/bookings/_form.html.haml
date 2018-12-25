@@ -1,12 +1,88 @@
-= simple_form_for(@booking) do |f|
-  = f.error_notification
 
-  .form-inputs
-    = f.input :time
-    = f.input :date
-    = f.input :description
-    = f.input :status
-    = f.input :confirm_status
+-# = simple_form_for(@booking) do |f|
+-#   = f.error_notification
 
-  .form-actions
-    = f.button :submit
+-#   .form-inputs
+-#     = f.input :time
+-#     = f.input :date
+-#     = f.input :description
+-#     = f.input :status
+-#     = f.input :confirm_status
+
+-#   .form-actions
+-#     = f.button :submit
+
+#modal-default.modal.fade.in{:style => "display: block; padding-right: 10px;"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4.modal-title Default Modal
+      .modal-body
+        %p One fine body…
+        .row
+          .col-md-12
+            .box.box-primary
+              .box-header.with-border
+                %h3.box-title Provide booking details
+              %form{:lpformnum => "1", :role => "form"}
+              = simple_form_for @booking do |f|
+                - if @booking.errors.any?
+                  #error_explanation
+                    %h2= "#{pluralize(@booking.errors.count, "error")} prohibited this booking from being saved:"
+                    %ul
+                      - @booking.errors.full_messages.each do |message|
+                        %li= message
+                %form{:_lpchecked => "1", :lpformnum => "1", :role => "form"}
+                  .box-body
+                    .row
+                      .col-md-6
+                        .form-group
+                          %label{:for => "exampleInputEmail1"} Program Name
+                          / = f.label :name
+                          = f.text_field :description, class: "form-control", placeholder: "Enter name"
+                    .row
+                      .col-md-6
+                        .form-group
+                          %label{:for => "exampleInputEmail1"} Booking Description
+                          / = f.label :name
+                          = f.text_field :description, class: "form-control", placeholder: "Enter name"
+                      .col-md-6
+                        .form-group
+                          %label{:for => "exampleInputPassword1"} Select a client
+                          -# = f.text_field :status, class: "form-control", placeholder: "True or false."
+                          = f.input :client do
+                            = f.select :client, Client.all.map { |c| [c.full_names, c.id] }, include_blank: false
+                          -# = f.association :client, label_method: :first_name, value_method: :id, include_blank: false
+                    .row
+                      .col-md-6
+                        .form-group
+                          %label{:for => "exampleInputPassword1"} Status
+                          = f.text_field :status, class: "form-control", placeholder: "True or false."
+                      .col-md-6
+                        .form-group
+                          %label{:for => "exampleInputPassword1"} Confirm Status
+                          = f.text_field :confirm_status, class: "form-control", placeholder: "pending, confirmed, cancelled"
+                    .row
+                      .col-md-12
+                        .form-group
+                          %label Date and time range:
+                          .input-group
+                            .input-group-addon
+                              %i.fa.fa-clock-o
+                            = f.input :time, class: "datepicker"
+                    .row
+                      .col-md-12
+                        .form-group
+                          -# %label Date and time range:
+                          .input-group
+                            .input-group-addon
+                              %i.fa.fa-clock-o
+                            = f.input :end_time, class: "datepicker"
+                        / /.input group
+      .modal-footer
+        = link_to 'Back', bookings_path, class: "btn btn-default pull-left"
+        %button.btn.btn-default.pull-left{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-primary{:type => "button"} Save changes
+                
