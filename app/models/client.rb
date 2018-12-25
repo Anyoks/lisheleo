@@ -15,4 +15,10 @@ class Client < ApplicationRecord
 
 	has_many :bookings
 	has_many :sms
+
+
+	def full_names
+		return "#{self.first_name} #{self.last_name}"
+	end
 end
+
