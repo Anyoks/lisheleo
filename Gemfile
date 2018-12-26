@@ -99,3 +99,5 @@ gem 'fullcalendar-rails'
 gem 'momentjs-rails'
 # drag and drop
 gem 'jquery-ui-rails'
+# color picker
+gem 'jquery-minicolors-rails'
