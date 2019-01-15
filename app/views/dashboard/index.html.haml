@@ -1,5 +1,9 @@
-%h1 Dashboard#index
+%h1 Dashboard
 .row
+    .col-md-9
+        .box.box-primary
+            .box-body.no-padding
+                #calendar
     .col-md-3
         .box.box-solid
             .box-header.with-border
@@ -7,75 +11,6 @@
             .box-body
                 / the events
                 #my-draggable
-                    .external-event.2.ui-draggable.ui-draggable-handle{:style => "background-color: rgb(114, 175, 210); border-color: rgb(114, 175, 210); color: rgb(255, 255, 255); position: relative; z-index: 10"} Therapeutic massage
-                    .external-event.3.bg-green.ui-draggable.ui-draggable-handle{:style => "position: relative; z-index: 10; width: 223.25px; right: auto; height: 30px; bottom: auto; left: 0px; top: 0px;"} Keep Fit
-                    .external-event.1.bg-yellow.ui-draggable.ui-draggable-handle{:style => "position: relative; z-index: 10; width: 223.25px; right: auto; height: 30px; bottom: auto; left: 0px; top: 0px;"} Personalized wellness
-                    .external-event.4.bg-aqua.ui-draggable.ui-draggable-handle{:style => "position: relative; z-index: 10; width: 223.25px; right: auto; height: 30px; bottom: auto; left: 0px; top: 0px;"} Cancer support group
-                    .external-event.44.bg-aqua.ui-draggable.ui-draggable-handle{:style => "position: relative; z-index: 10; width: 223.25px; right: auto; height: 30px; bottom: auto; left: 0px; top: 0px;"} Cancer support group2
                     .checkbox
-                    -# %label{:for => "drop-remove"}
-                    -#     %input#drop-remove{:type => "checkbox"}/
-                    -#     remove after drop
-                / /.box-body
-        / /. box
-        .box.box-solid
-            .box-header.with-border
-                %h3.box-title Create Event
-            .box-body
-                .btn-group{:style => "width: 100%; margin-bottom: 10px;"}
-                    / <button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>
-                    %ul#color-chooser.fc-color-picker
-                        %li
-                            %a.text-aqua{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-blue{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-light-blue{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-teal{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-yellow{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-orange{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-green{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-lime{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-red{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-purple{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-fuchsia{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-muted{:href => "#"}
-                                %i.fa.fa-square
-                        %li
-                            %a.text-navy{:href => "#"}
-                                %i.fa.fa-square
-                    / /btn-group
-                .input-group
-                    %input#new-event.form-control{:placeholder => "Event Title", :type => "text"}/
-                    .input-group-btn
-                        %button#add-new-event.btn.btn-primary.btn-flat{:style => "background-color: rgb(0, 31, 63); border-color: rgb(0, 31, 63);", :type => "button"} Add
-                    / /btn-group
-                    / /input-group
-
-
-    .col-md-9
-        .box.box-primary
-            .box-body.no-padding
-                #calendar
 
 %br

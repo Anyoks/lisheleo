@@ -1,17 +1,49 @@
 %p#notice= notice
-%p
-  %b First name:
-  = @client.first_name
-%p
-  %b Last name:
-  = @client.last_name
-%p
-  %b Phone number:
-  = @client.phone_number
-%p
-  %b Gender:
-  = @client.gender
+
+.col-md-3.col-sm-6.col-xs-12
+  .info-box
+    %span.info-box-icon.bg-green
+      %i.ion.ion-person-add
+    .info-box-content
+      %span.info-box-text #{@client.first_name}  #{@client.last_name}
+      %span.info-box-number #{@client.phone_number}
+      %span.info-box-text #{@client.gender}
+    / /.info-box-content
+  / /.info-box
+
+.col-md-3.col-sm-6.col-xs-12
+  .info-box.bg-yellow
+    %span.info-box-icon
+      %i.fa.fa-calendar
+    .info-box-content
+      %span.info-box-text Bookings
+      %span.info-box-number 20
+      .progress
+        .progress-bar{:style => "width: 70%"}
+      %span.progress-description
+        70% Increase in 30 Days
+    / /.info-box-content
+  / /.info-box
+
+.col-md-3.col-sm-6.col-xs-12
+  .info-box.bg-green
+    %span.info-box-icon
+      %i.fa.fa-thumbs-o-up
+    .info-box-content
+      %span.info-box-text Meetings
+      %span.info-box-number 30
+      .progress
+        .progress-bar{:style => "width: 70%"}
+      %span.progress-description
+        70% Increase in 30 Days
+    / /.info-box-content
+  / /.info-box
+
 .row
+  .col-md-9
+    .box.box-primary
+      .box-body.no-padding
+        #user_calendar
   .col-md-3
     .box.box-solid
       .box-header.with-border
@@ -19,11 +51,6 @@
       .box-body
         / the events
         #my-draggable
-
-  .col-md-9
-    .box.box-primary
-      .box-body.no-padding
-        #user_calendar
 
 
 = link_to 'Edit', edit_client_path(@client)

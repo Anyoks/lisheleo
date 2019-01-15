@@ -82,10 +82,10 @@ function initCal() {
         }
     );
 
-    $('.external-event.1').data('event', { title: 'Personalized wellness', duration: '00:50', color: '#257e4a' });
-    $('.external-event.2').data('event', { title: 'Therapeutic Massage', duration: '00:50', color: '#f39c12' });
-    $('.external-event.3').data('event', { title: 'Keep fit', duration: '00:50', color: '#0073b7' });
-    $('.external-event.4').data('event', { title: 'Cancer support', duration: '00:50', color: '#00c0ef' });
+    // $('.external-event.1').data('event', { title: 'Personalized wellness', duration: '00:50', color: '#257e4a' });
+    // $('.external-event.2').data('event', { title: 'Therapeutic Massage', duration: '00:50', color: '#f39c12' });
+    // $('.external-event.3').data('event', { title: 'Keep fit', duration: '00:50', color: '#0073b7' });
+    // $('.external-event.4').data('event', { title: 'Cancer support', duration: '00:50', color: '#00c0ef' });
 
 
     $('#calendar').fullCalendar(
