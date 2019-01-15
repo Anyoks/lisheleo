@@ -1,7 +1,3 @@
-$(document).ready(function(){
-   
-});
-
 (function initCal() {
     $id = $(this)[0].document.URL.split('/')[4] ;
     $('.external-event').draggable(
@@ -139,4 +135,4 @@ $(document).ready(function(){
         }
     );
 }(jQuery));
-
+    
