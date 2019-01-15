@@ -2,7 +2,7 @@ json.array! @bookings do |booking| #, partial: 'bookings/booking', as: :booking
     json.extract! booking, :id #:name, :code, :attachment
     json.title booking.description
     json.start booking.time
-    json.end  booking.time
+    json.end  booking.end_time
     
     # add colours for confirmed bookings etc.
     unless booking.program == nil

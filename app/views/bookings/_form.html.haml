@@ -27,7 +27,7 @@
               .box-header.with-border
                 %h3.box-title Provide booking details
               %form{:lpformnum => "1", :role => "form"}
-              = simple_form_for @booking do |f|
+              = simple_form_for @booking, :remote => true do |f|
                 - if @booking.errors.any?
                   #error_explanation
                     %h2= "#{pluralize(@booking.errors.count, "error")} prohibited this booking from being saved:"
@@ -42,28 +42,44 @@
                           %label{:for => "exampleInputEmail1"} Program Name
                           / = f.label :name
                           = f.text_field :description, class: "form-control", placeholder: "Enter name"
+                          %span.help-block
+
+                      .col-md-6
+                        .form-group
+                          %label{:for => "exampleInputEmail1"} Select the Program
+                          = f.input :program, class: "form-control", :label => "" do
+                            = f.select :program_id, Program.all.map { |c| [c.name, c.id] }, include_blank: false
+                          %span.help-block
+
                     .row
                       .col-md-6
                         .form-group
                           %label{:for => "exampleInputEmail1"} Booking Description
                           / = f.label :name
                           = f.text_field :description, class: "form-control", placeholder: "Enter name"
+                          %span.help-block
+
                       .col-md-6
                         .form-group
                           %label{:for => "exampleInputPassword1"} Select a client
                           -# = f.text_field :status, class: "form-control", placeholder: "True or false."
-                          = f.input :client do
-                            = f.select :client, Client.all.map { |c| [c.full_names, c.id] }, include_blank: false
-                          -# = f.association :client, label_method: :first_name, value_method: :id, include_blank: false
+                          = f.input :client, :label => "" do
+                            = f.select :client_id, Client.all.map { |c| [c.full_names, c.id] }, include_blank: false
+                          %span.help-block
+
                     .row
                       .col-md-6
                         .form-group
                           %label{:for => "exampleInputPassword1"} Status
                           = f.text_field :status, class: "form-control", placeholder: "True or false."
+                          %span.help-block
+
                       .col-md-6
                         .form-group
                           %label{:for => "exampleInputPassword1"} Confirm Status
                           = f.text_field :confirm_status, class: "form-control", placeholder: "pending, confirmed, cancelled"
+                          %span.help-block
+
                     .row
                       .col-md-12
                         .form-group
@@ -72,6 +88,8 @@
                             .input-group-addon
                               %i.fa.fa-clock-o
                             = f.input :time, class: "datepicker"
+                            %span.help-block
+
                     .row
                       .col-md-12
                         .form-group
@@ -80,9 +98,11 @@
                             .input-group-addon
                               %i.fa.fa-clock-o
                             = f.input :end_time, class: "datepicker"
+                            %span.help-block
+
                         / /.input group
-      .modal-footer
-        = link_to 'Back', bookings_path, class: "btn btn-default pull-left"
-        %button.btn.btn-default.pull-left{"data-dismiss" => "modal", :type => "button"} Close
-        %button.btn.btn-primary{:type => "button"} Save changes
+                  .modal-footer
+                    %button.btn.btn-default.pull-left{"data-dismiss" => "modal", :type => "button"} Close
+                    = f.button :submit, class: "btn btn-primary"
+                    -# %button.btn.btn-primary{:type => "button"} Save changes
                 
