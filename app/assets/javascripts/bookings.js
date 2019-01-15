@@ -34,10 +34,12 @@ $(document).ready(function(){
       $.each(errors, function(field, messages){
         // $input = $('input[name="' + model + '[' + field + ']"]');
         $input = $('#booking_' + field );
+        $input2 = $('.input.datetime.optional.booking_time');
         console.log("eRRORS inout " + $input);
         console.log("eRRORS field " + field);
         console.log("eRRORS msg " + messages);
         $input.closest('.form-group').addClass('has-error').find('.help-block').html( messages.join(' & ') );
+        $input2.closest('.form-group').addClass('has-error').find('.help-block').html( messages.join(' & ') );
       });
   
     };
