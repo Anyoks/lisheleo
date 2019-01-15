@@ -45,7 +45,7 @@ function GetPrograms(callback) {
                 //  console.log(data[k].name); // name of products
                 $(function () {
                     console.log("adding div " + x + " " + data[k].name);
-                    console.log("adding div " + x + " " + hexToRgb(data[k].color));
+                    // console.log("adding div " + x + " " + hexToRgb(data[k].color));
 
                     $('#my-draggable').append("<div class=\"external-event " + x + " ui-draggable ui-draggable-handle\" style= \"background-color:rgb(" + hexToRgb(data[k].color) + "); border-color: rgb(114, 175, 210);  color: rgb(255, 255, 255); position: relative; z-index: 10\">" + data[k].name + "</div");
                     $('.external-event.' + x).data('event', { title: data[k].name, duration: '00:50', color: data[k].color });
