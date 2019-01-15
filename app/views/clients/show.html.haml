@@ -1,5 +1,4 @@
 %p#notice= notice
-
 %p
   %b First name:
   = @client.first_name
@@ -12,6 +11,20 @@
 %p
   %b Gender:
   = @client.gender
+.row
+  .col-md-3
+    .box.box-solid
+      .box-header.with-border
+        %h4.box-title Draggable Events
+      .box-body
+        / the events
+        #my-draggable
+
+  .col-md-9
+    .box.box-primary
+      .box-body.no-padding
+        #user_calendar
+
 
 = link_to 'Edit', edit_client_path(@client)
 \|
