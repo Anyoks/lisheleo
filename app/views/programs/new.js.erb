@@ -1,0 +1,34 @@
+$('.modal-default').html("<%= j render(partial: 'new') %>");
+
+// $(function () {
+//     console.log('COLOR PICKER MAIN');
+//     $('.input-group-addon').colorpicker();
+// });
+
+
+$('#program_color').colorpicker().on('colorpickerChange', function (e) {
+    // initialize the input on colorpicker creation
+//    io.val(e.color.string());
+//
+//    io.on('change keyup', function () {
+//        e.colorpicker.setValue(io.val());
+//    });
+    console.log('COLOR PICKER www');
+})
+
+ //$('#program_color').val( "llalala");
+
+//colorpicker().on( 'colorpickerChange', function (event) {
+//    console.log('COLOR PICKER EVENT ');
+//        // $('.input-group-addon').css('background-color', event.color.toString());
+//    console.log('COLOUR ' + event.colorpicker.picker.parents);
+//    $('#program_color').val( "event.color.toString()");
+//});
+//$('.input-group-addon').on( function (event) {
+//    console.log('COLOR PICKER EVENT ');
+//        // $('.input-group-addon').css('background-color', event.color.toString());
+//    console.log('COLOUR ' + event.colorpicker.picker.parents);
+//    $('#program_color').val( "event.color.toString()");
+//});
+
+$('#modal-default').modal('show') 

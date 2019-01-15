@@ -17,6 +17,7 @@
 class Booking < ApplicationRecord
 
 	validates :time, uniqueness: { scope: [:program_id ]} #, :another_medium] }
+	validates_presence_of :description
 
 	belongs_to :sms
 	belongs_to :client

@@ -1,11 +1,64 @@
 = simple_form_for(@program) do |f|
   = f.error_notification
 
-  .form-inputs
-    = f.input :name
-    = f.input :description
-    = f.input :sms_description
-    = f.input :parallel
+  -# .form-inputs
+  -#   = f.input :name
+  -#   = f.input :description
+  -#   = f.input :sms_description
+  -#   = f.input :parallel
 
-  .form-actions
-    = f.button :submit
+  -# .form-actions
+  -#   = f.button :submit
+#modal-default.modal.fade.in{:style => "display: block; padding-right: 10px;"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4.modal-title Default Modal
+      .modal-body
+        %p One fine body…
+        .row
+          .col-md-12
+            .box.box-primary
+              .box-header.with-border
+                %h3.box-title Provide program details
+              %form{:lpformnum => "1", :role => "form"}
+              = simple_form_for @program do |f|
+                - if @program.errors.any?
+                  #error_explanation
+                    %h2= "#{pluralize(@program.errors.count, "error")} prohibited this program from being saved:"
+                    %ul
+                      - @program.errors.full_messages.each do |message|
+                        %li= message
+                %form{:_lpchecked => "1", :lpformnum => "1", :role => "form"}
+                  .box-body
+                    .row
+                      .col-md-6
+                        .form-group
+                          %label{:for => "exampleInputEmail1"} Program Name
+                          / = f.label :name
+                          = f.text_field :name, class: "form-control", placeholder: "Enter name"
+                      .col-md-6
+                        .form-group
+                          %label{:for => "exampleInputEmail1"} Description
+                          = f.text_field :description, class: "form-control my-colorpicker1 colorpicker-element", style: "position: relative; z-index: 10000"
+                    .row
+                      .col-md-6
+                        .form-group
+                          %label{:for => "exampleInputPassword1"} Select program color
+                          -# = f.text_field :color, class: "form-control", placeholder: "pending, confirmed, cancelled"
+                          .input-group.my-colorpicker2.colorpicker-element
+                            = f.text_field :color,  class: "form-control", placeholder: "pending, confirmed, cancelled"
+                            .input-group-addon
+                              %i{:style => "background-color: rgb(6, 89, 29);"}
+                      .col-md-6
+                        .form-group
+                          %label{:for => "exampleInputEmail1"} Is it parallel?
+                          / = f.label :name
+                          = f.text_field :parallel, class: "form-control", placeholder: "Enter name"
+                  .modal-footer
+            
+                    %button.btn.btn-default.pull-left{"data-dismiss" => "modal", :type => "button"} Close
+                    = f.button :submit, class: "btn btn-primary"
+        -# %button.btn.btn-primary{:type => "button"} Save changes
