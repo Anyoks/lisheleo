@@ -22,7 +22,7 @@ protected
 
 	def layout_by_resource
 	  # byebug
-		if devise_controller? && action_name == "new" || action_name == "create"#&& action_name == "edit"
+		if devise_controller? && action_name == "new" || devise_controller? &&  action_name == "create"#&& action_name == "edit"
 			"admin_lte_2_sign_up"
 		else
 			"admin_lte_2"
