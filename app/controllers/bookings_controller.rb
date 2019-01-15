@@ -26,13 +26,42 @@ class BookingsController < ApplicationController
   def create
     @booking = Booking.new(booking_params)
 
+    # byebug
+    if @booking.sms_id == nil
+      @booking.sms = Sms.where(message: "dashboard_booking").first_or_create
+    end
+
+    eligible  			= @booking.check_booking_eligibility
     respond_to do |format|
-      if @booking.save
-        format.html { redirect_to @booking, notice: 'Booking was successfully created.' }
-        format.json { render :show, status: :created, location: @booking }
+
+      if eligible.class != Array
+
+        if @booking.save
+          format.html { redirect_to '/dashboard', notice: 'Booking was successfully created.' }
+          format.json { render :show, status: :created, location: @booking }
+        else
+          # format.html { render new }
+         
+          format.json { render json: @booking.errors, status: :unprocessable_entity }
+          
+          format.js { render json: @booking.errors, status: :unprocessable_entity  }
+         
+        end
       else
-        format.html { render :new }
-        format.json { render json: @booking.errors, status: :unprocessable_entity }
+       
+        message = "Slot unavailable. Try "
+         eligible[1].each do |day,time|
+          message = message + " " + day
+          time.each do | at |
+           message = message + ", " + at
+          end
+         end
+        array = [message.strip]
+        hash = {"errors" => array}
+
+        format.json { render json:  hash, status: :unprocessable_entity }
+          
+        format.js { render json:  hash, status: :unprocessable_entity  }
       end
     end
   end
@@ -69,6 +98,6 @@ class BookingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def booking_params
-      params.require(:booking).permit(:time, :date, :description, :status, :confirm_status)
+      params.require(:booking).permit(:time, :date, :end_time,:client_id, :program_id ,:description, :status, :confirm_status)
     end
 end
