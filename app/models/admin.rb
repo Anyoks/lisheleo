@@ -56,16 +56,28 @@ class Admin < ApplicationRecord
 		end
 	end
 
-	def make_admin
-		self.update_attributes :role_id => 2
+	def is_previlaged?
+		if self.role.nil?
+			false
+		elsif self.role.name == "admin" || self.role.name == "moderator"
+			true
+		else
+			false
+		end
 	end
 
-	def show_admins
-		User.where(:role_id => 2 )
+	def make_admin
+		role = 
+		self.update_attributes :role_id => Role.find_by_name('admin').id
 	end
 
 	def make_moderator
-		self.update_attributes :role_id => 1
+		role = 
+		self.update_attributes :role_id => Role.find_by_name('moderator').id
+	end
+
+	def make_customer
+		self.update_attributes :role_id => Role.find_by_name('customer').id
 	end
 
    protected
