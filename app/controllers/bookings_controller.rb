@@ -37,8 +37,9 @@ class BookingsController < ApplicationController
       if eligible.class != Array
 
         if @booking.save
-          format.html { redirect_to '/dashboard', notice: 'Booking was successfully created.' }
+          # f ormat.html { redirect_to '/dashboard', notice: 'Booking was successfully created.' }
           format.json { render :show, status: :created, location: @booking }
+          format.js # { render json: @booking, status: :unprocessable_entity  }
         else
           # format.html { render new }
          

@@ -56,6 +56,12 @@ class Booking < ApplicationRecord
 		return time + ' - ' + end_time
 	end
 
+	def date
+		
+			self.time.to_date
+		
+	end
+
 
 	# check if time slot available for date and time
 
