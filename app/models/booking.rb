@@ -126,21 +126,30 @@ class Booking < ApplicationRecord
 								
 								if bookings.where(end_time: Time.zone.parse(today[counter])).present?
 									# this time slot has been taken.
-									# return suggested time slots for today
-									if self.date > Date.today 
-										if Time.zone.now > Time.zone.parse(today[counter+1])
-											puts "Here today  #{today}  counter #{counter}"
-											return true , today[counter+1]# "This slot is taken but there's one available today"
-											break
-										else
-											# you cannot book a passed time
-											return available_slots_this_week
-										end
+									# But perhaps the booking is a parallel booking... 
+									#  But though it's parallell, there could be one already going on, so check
+									if self.program.parallel && bookings.where(program_id: self.program.id).count == 0
+										return true
+										break
 									else
-										# you cannot book a passed date
-										# return suggested booking dates
-										return available_slots_this_week 
+										# debug.log()
+										# return suggested time slots for today
+										if self.date > Date.today 
+											if Time.zone.now > Time.zone.parse(today[counter+1])
+												puts "Here today  #{today}  counter #{counter}"
+												return true , today[counter+1]# "This slot is taken but there's one available today"
+												break
+											else
+												# you cannot book a passed time
+												return available_slots_this_week
+											end
+										else
+											# you cannot book a passed date
+											# return suggested booking dates
+											return available_slots_this_week 
+										end
 									end
+									
 								else								
 									# if the available time is passed, then don't suggest it.
 									if self.date > Date.today 
