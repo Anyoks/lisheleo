@@ -27,7 +27,7 @@
                   - bookings.each do |booking|
 
                     %tr{:class => "#{cycle('even', 'odd')}"}
-                      %td.sorting_1=  booking.time
+                      %td.sorting_1=  booking.time.strftime("%I:%M%p")
                       %td= booking.date
                       %td= booking.description
                       %td= booking.status
