@@ -86,10 +86,14 @@ class Program < ApplicationRecord
 
 # 	revise this to inlude double monday or tuesdays etc 
 	def sessions_for_day day
-		time = self.available_times.where(day: day).first
-
+		time = self.available_times.where(day: day)
+		
+		times = []
 		if time.present?
-			return time.time
+			time.each do |t| 
+			 times << t.time
+			end
+			return times
 		else
 			return false
 		end

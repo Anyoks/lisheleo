@@ -74,118 +74,126 @@ class Booking < ApplicationRecord
 			# if time >= avalable.start_time  && time + duration < available.endtime
 			
 			
-			# returns "02:00 PM - 04:00 PM" 
+			# returns an array of times ["02:00 PM - 04:00 PM", "08:00 PM - 09:00 PM" ]
 			program_time = self.program.sessions_for_day self.day 
 
-			program_start_time = program_time.split('-')[0]
-			program_end_time = program_time.split('-')[1]
+			# program_start_time = program_time.split('-')[0]
+			# program_end_time = program_time.split('-')[1]
+			program_start_time = []
+			program_time.each { |t| program_start_time << t.split('-')[0] }
+			program_end_time = []
+			program_time.each { |t| program_end_time << t.split('-')[1] }
 
-
-
-			# check if the user's proposed booking time is within the allowed booking hours
-			if Time.zone.parse(self.ftime) >= Time.zone.parse(program_start_time) && Time.zone.parse(self.f_end_time) < Time.zone.parse(program_end_time)
+			
+			program_start_time.each_with_index do |time, index|
 				# byebug
-				# # check if a booking already exists for that particular time
-				# 
-				# check if there's a booking for this program on this date & time
-				bookings = Booking.where(date: self.date, time: self.time ,program_id: self.program.id)
-				
-				# check each bookings time
-				if bookings.present?
+				if Time.zone.parse(self.ftime) >= Time.zone.parse(time) && Time.zone.parse(self.f_end_time) < Time.zone.parse(program_end_time[index])
 					
-					# check if max bookings for this day have been reached
-					if bookings.count >= self.program.max_bookings(self.day)
-
-						# I'm thinking I should query available slots and present the user with proposed time
-						# slots for booking as opposed to leave them guessing till they get it right.
-						# Maybe return a 2 day list of available slot times, e. Monday 12 2pm, 3pm 4pm, Tue 13 8am, 9am 
-						# wed, 3pm etc
+					# # check if a booking already exists for that particular time
+					# 
+					# check if there's a booking for this program on this date & time
+					bookings = Booking.where(date: self.date, time: self.time ,program_id: self.program.id)
+					
+					# check each bookings time
+					if bookings.present?
 						
-						# return false, "This day is fully booked"
-						return available_slots_this_week#, "This day is fully booked"
-					else
-						# check if the users' time slot is already taken
-						#check the start times for this session and tell give the user a choice if thier's
-						#don't fall in that range.
-						
-						ending = self.f_end_time
-
-						# find starting times then select for this day
-						# 
-						# search Db for which one exists and suggest the other one.
-						checking = self.program.get_starting_times_for_sessions # e.g {"Tuesday"=>["02:00 PM ", "02:50 PM"], "Thursday"=>["08:30 AM "]} 
-						today    = checking[self.day] # e.g ["02:00 PM ", "02:50 PM"] 
-
-						counter = 0
-						# byebug
-						while counter <= today.size
+						# check if max bookings for this day have been reached
+						if bookings.count >= self.program.max_bookings(self.day)
 							
-							if bookings.where(end_time: Time.zone.parse(today[counter])).present?
-								# this time slot has been taken.
-								# return suggested time slots for today
-								if self.date > Date.today 
-									if Time.zone.now > Time.zone.parse(today[counter+1])
-										puts "Here today  #{today}  counter #{counter}"
-										return true , today[counter+1]# "This slot is taken but there's one available today"
-										break
-									else
-										# you cannot book a passed time
-										return available_slots_this_week
-									end
-								else
-									# you cannot book a passed date
-									# return suggested booking dates
-									return available_slots_this_week 
-								end
-							else								
-								# if the available time is passed, then don't suggest it.
-								if self.date > Date.today 
-									# check the time
-									# byebug
-									if Time.zone.now > Time.zone.parse(today[counter])
-										# byebug
-										# now we can pick a time and book a slot or suggest a time slot to the user
-										# puts "Here today1  #{today}  counter1 #{counter}"
-										# return true this is a successful booking
-										# Okay we can book
-										# return true, today[counter] #{}"This time slot is present"
-
-										# check if it first exists in the db
-										if Booking.where(end_time: self.time, program_id: self.program.id).count > 0
-											# such a booking exists, suggest another time
-											return available_slots_this_week
-										else
-											return true
+							# I'm thinking I should query available slots and present the user with proposed time
+							# slots for booking as opposed to leave them guessing till they get it right.
+							# Maybe return a 2 day list of available slot times, e. Monday 12 2pm, 3pm 4pm, Tue 13 8am, 9am 
+							# wed, 3pm etc
+							
+							# return false, "This day is fully booked"
+							return available_slots_this_week#, "This day is fully booked"
+						else
+							# check if the users' time slot is already taken
+							#check the start times for this session and tell give the user a choice if thier's
+							#don't fall in that range.
+							
+							ending = self.f_end_time
+	
+							# find starting times then select for this day
+							# 
+							# search Db for which one exists and suggest the other one.
+							checking = self.program.get_starting_times_for_sessions # e.g {"Tuesday"=>["02:00 PM ", "02:50 PM"], "Thursday"=>["08:30 AM "]} 
+							today    = checking[self.day] # e.g ["02:00 PM ", "02:50 PM"] 
+	
+							counter = 0
+							# byebug
+							while counter <= today.size
+								
+								if bookings.where(end_time: Time.zone.parse(today[counter])).present?
+									# this time slot has been taken.
+									# return suggested time slots for today
+									if self.date > Date.today 
+										if Time.zone.now > Time.zone.parse(today[counter+1])
+											puts "Here today  #{today}  counter #{counter}"
+											return true , today[counter+1]# "This slot is taken but there's one available today"
 											break
+										else
+											# you cannot book a passed time
+											return available_slots_this_week
 										end
-
-										
 									else
-										# you cannot book a passed time
-										return available_slots_this_week
+										# you cannot book a passed date
+										# return suggested booking dates
+										return available_slots_this_week 
 									end
-								else
-									# you cannot book a passed date
-									# return suggested booking dates
-									return available_slots_this_week 
-								end	
-							end
-
-							counter +=1
-						end				
+								else								
+									# if the available time is passed, then don't suggest it.
+									if self.date > Date.today 
+										# check the time
+										# byebug
+										if Time.zone.now > Time.zone.parse(today[counter])
+											# byebug
+											# now we can pick a time and book a slot or suggest a time slot to the user
+											# puts "Here today1  #{today}  counter1 #{counter}"
+											# return true this is a successful booking
+											# Okay we can book
+											# return true, today[counter] #{}"This time slot is present"
+	
+											# check if it first exists in the db
+											if Booking.where(end_time: self.time, program_id: self.program.id).count > 0
+												# such a booking exists, suggest another time
+												return available_slots_this_week
+											else
+												return true
+												break
+											end
+	
+											
+										else
+											# you cannot book a passed time
+											return available_slots_this_week
+										end
+									else
+										# you cannot book a passed date
+										# return suggested booking dates
+										return available_slots_this_week 
+									end	
+								end
+	
+								counter +=1
+							end				
+						end
+					else
+						# return true, this is a successful booking
+						# return true, "there are no booking today You can book successfully"
+						return true
 					end
+	
+					# return true
 				else
-					# return true, this is a successful booking
-					# return true, "there are no booking today You can book successfully"
-					return true
+					# return available days for this program
+					# return false," time is out of range, either too early or too late."
+					next if  index  != program_start_time.size - 1
+					return available_slots_this_week
 				end
-
-				# return true
-			else
-				# return available days for this program
-				# return false," time is out of range, either too early or too late."
-				return available_slots_this_week
 			end
+			# check if the user's proposed booking time is within the allowed booking hours
+			
 		else
 			# return available days for this program
 			# return false, "Picked the wrong day"
