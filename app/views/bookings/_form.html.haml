@@ -18,9 +18,9 @@
       .modal-header
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
-        %h4.modal-title Default Modal
+        %h4.modal-title Provide Booking Details
       .modal-body
-        %p One fine body…
+        %p 
         .row
           .col-md-12
             .box.box-primary
@@ -39,9 +39,10 @@
                     .row
                       .col-md-6
                         .form-group
-                          %label{:for => "exampleInputEmail1"} Program Name
-                          / = f.label :name
-                          = f.text_field :description, class: "form-control", placeholder: "Enter name"
+                          %label{:for => "exampleInputPassword1"} Select a client
+                          -# = f.text_field :status, class: "form-control", placeholder: "True or false."
+                          = f.input :client, :label => "" do
+                            = f.select :client_id, Client.all.map { |c| [c.full_names, c.id] }, include_blank: false
                           %span.help-block
 
                       .col-md-6
@@ -61,24 +62,22 @@
 
                       .col-md-6
                         .form-group
-                          %label{:for => "exampleInputPassword1"} Select a client
-                          -# = f.text_field :status, class: "form-control", placeholder: "True or false."
-                          = f.input :client, :label => "" do
-                            = f.select :client_id, Client.all.map { |c| [c.full_names, c.id] }, include_blank: false
-                          %span.help-block
-
-                    .row
-                      .col-md-6
-                        .form-group
-                          %label{:for => "exampleInputPassword1"} Status
-                          = f.text_field :status, class: "form-control", placeholder: "True or false."
-                          %span.help-block
-
-                      .col-md-6
-                        .form-group
                           %label{:for => "exampleInputPassword1"} Confirm Status
                           = f.text_field :confirm_status, class: "form-control", placeholder: "pending, confirmed, cancelled"
                           %span.help-block
+
+                    .row
+                      // .col-md-6
+                      //   .form-group
+                      //     %label{:for => "exampleInputPassword1"} Status
+                      //     = f.text_field :status, class: "form-control", placeholder: "True or false."
+                      //     %span.help-block
+
+                      // .col-md-6
+                      //   .form-group
+                      //     %label{:for => "exampleInputPassword1"} Confirm Status
+                      //     = f.text_field :confirm_status, class: "form-control", placeholder: "pending, confirmed, cancelled"
+                      //     %span.help-block
 
                     .row
                       .col-md-12

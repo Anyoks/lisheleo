@@ -1,29 +1,8 @@
-%h1 Listing clients
+%h1 Lishe Leo clients
 
 #partial_page
   =render "clients/table", clients: @clients#the table that was previously here was extracted to the partial to be DRY. seems like I needed it more than I thought! :-)
--# %table
--#   %thead
--#     %tr
--#       %th First name
--#       %th Last name
--#       %th Phone number
--#       %th Gender
--#       %th
--#       %th
--#       %th
-
--#   %tbody
--#     - @clients.each do |client|
--#       %tr
--#         %td= client.first_name
--#         %td= client.last_name
--#         %td= client.phone_number
--#         %td= client.gender
--#         %td= link_to 'Show', client
--#         %td= link_to 'Edit', edit_client_path(client)
--#         %td= link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New Client', new_client_path
+= link_to 'New Client', new_client_path, class: "btn btn-primary"

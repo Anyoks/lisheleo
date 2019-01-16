@@ -1,11 +1,39 @@
-= simple_form_for(@client) do |f|
-  = f.error_notification
+.row
+  .col-md-12
+    .box.box-primary
+      .box-header.with-border
+        %h3.box-title Provide client details
+      %form{:lpformnum => "1", :role => "form"}
+      = simple_form_for @client, html: { multipart: true } do |f|
+        - if @client.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@client.errors.count, "error")} prohibited this client from being saved:"
+            %ul
+              - @client.errors.full_messages.each do |message|
+                %li= message
+        %form{:_lpchecked => "1", :lpformnum => "1", :role => "form"}
+          .box-body
+            .row
+              .col-md-6
+                .form-group
+                  %label{:for => "exampleInputEmail1"} client Name
+                  / = f.label :name
+                  = f.text_field :first_name, class: "form-control", placeholder: "Enter First name"
+              .col-md-6
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Location
+                  = f.text_field :last_name, class: "form-control", placeholder: "Enter Last name"
+            .row
+              .col-md-6
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Phone Number
+                  = f.text_field :phone_number, class: "form-control", placeholder: "Phone Number"
+              .col-md-6
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Gender
+                  = f.text_field :gender, class: "form-control", placeholder: "Enter client Gender"
+            .row
 
-  .form-inputs
-    = f.input :first_name
-    = f.input :last_name
-    = f.input :phone_number
-    = f.input :gender
-
-  .form-actions
-    = f.button :submit
+          / /.box-body
+          .box-footer
+            = f.submit class: "btn btn-primary"
