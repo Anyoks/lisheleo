@@ -29,8 +29,29 @@ class Admin < ApplicationRecord
 		 :recoverable, :rememberable, :trackable, :validatable
   before_create :set_default_role
 
+  has_many :activities
+  has_many :client_activities, through: :activities
+  has_many :booking_activities, through: :activities
+
    
 
+	def log_booking_activity(type_id, activity_name, activity_description, booking_id )
+		activity = self.activities.build(activity_type_id: type_id, name: activity_name, description: activity_description)
+		activity.save
+
+		booking_activity = activity.booking_activities.build(booking_id: booking_id, description: activity_description)
+		booking_activity.save
+		return booking_activity
+	end
+
+	def log_client_activity(type_id, activity_name, activity_description, client_id )
+		activity = self.activities.build(activity_type_id: type_id, name: activity_name, description: activity_description)
+		activity.save
+
+		client_activity = activity.client_activities.build(client_id: client_id, description: activity_description)
+		client_activity.save
+		return client_activity
+	end
 
    def is_admin?
 		if self.role.nil?

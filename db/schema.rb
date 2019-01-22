@@ -10,12 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190122075850) do
+ActiveRecord::Schema.define(version: 20190122095929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
   enable_extension "pgcrypto"
+
+  create_table "activities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.uuid "admin_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "activity_type_id"
+    t.index ["activity_type_id"], name: "index_activities_on_activity_type_id"
+  end
+
+  create_table "activity_types", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "admins", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -46,6 +63,14 @@ ActiveRecord::Schema.define(version: 20190122075850) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "booking_activities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "description"
+    t.uuid "activity_id"
+    t.uuid "booking_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.date "date"
     t.string "description"
@@ -65,6 +90,14 @@ ActiveRecord::Schema.define(version: 20190122075850) do
     t.string "name"
     t.string "location"
     t.string "phone_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "client_activities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "description"
+    t.uuid "activity_id"
+    t.uuid "client_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

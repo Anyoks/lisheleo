@@ -25,6 +25,7 @@ class BookingsController < ApplicationController
   # POST /bookings.json
   def create
     @booking = Booking.new(booking_params)
+    activity_type_id = ActivityType.where(name: 'create' ).first.id
 
     # byebug
     if @booking.sms_id == nil
@@ -37,6 +38,11 @@ class BookingsController < ApplicationController
       if eligible.class != Array
 
         if @booking.save
+          # create a new activity
+          log = current_admin.log_booking_activity(activity_type_id, 'booking', 'creating a new booking', @booking.id )
+
+          # create a booking activity
+
           # f ormat.html { redirect_to '/dashboard', notice: 'Booking was successfully created.' }
           format.json { render :show, status: :created, location: @booking }
           format.js # { render json: @booking, status: :unprocessable_entity  }
@@ -70,8 +76,10 @@ class BookingsController < ApplicationController
   # PATCH/PUT /bookings/1
   # PATCH/PUT /bookings/1.json
   def update
+    activity_type_id = ActivityType.where(name: 'update' ).first.id
     respond_to do |format|
       if @booking.update(booking_params)
+        log = current_admin.log_booking_activity(activity_type_id, 'booking', 'update an existing booking', @booking.id )
         format.html { redirect_to @booking, notice: 'Booking was successfully updated.' }
         format.json { render :show, status: :ok, location: @booking }
       else
@@ -84,7 +92,10 @@ class BookingsController < ApplicationController
   # DELETE /bookings/1
   # DELETE /bookings/1.json
   def destroy
+    activity_type_id = ActivityType.where(name: 'destroy' ).first.id
     @booking.destroy
+
+    log = current_admin.log_booking_activity(activity_type_id, 'booking', 'delete an existing booking', @booking.id )
     respond_to do |format|
       format.html { redirect_to bookings_url, notice: 'Booking was successfully destroyed.' }
       format.json { head :no_content }
