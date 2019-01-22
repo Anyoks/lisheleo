@@ -1,0 +1,52 @@
+%p#notice= notice
+
+
+%p#notice= notice
+.row
+  .col-md-4
+    .box.box-default
+      .box-header.with-border
+        %h3.box-title #{@center.name} 
+        .box-tools.pull-right
+          // %button.btn.btn-box-tool{"data-widget" => "collapse", :type => "button"}
+          //   %i.fa.fa-minus
+        / /.box-tools
+      / /.box-header
+      .box-body
+        = @center.location
+        %ul.nav.nav-stacked
+          %li
+            %a{:href => "#"}
+              Total Bookings
+              %span.pull-right.badge.bg-blue 31
+          %li
+            %a{:href => "#"}
+              Total Clients 
+              %span.pull-right.badge.bg-aqua 5
+          %li
+            %a{:href => "#"}
+              Completed Projects
+              %span.pull-right.badge.bg-green 12
+          -# %li
+          -#   %a{:href => "#"}
+          -#     Confirmation status
+          -#     %span.pull-right.badge.bg-red #{@center.confirm_status}
+      / /.box-body
+
+
+
+
+-# %p
+-#   %b Name:
+-#   = @center.name
+-# %p
+-#   %b Location:
+-#   = @center.location
+-# %p
+-#   %b Phone number:
+-#   = @center.phone_number
+
+= link_to 'Edit', edit_center_path(@center), class: "btn btn-default"
+\|
+= link_to 'Back', centers_path, class: "btn btn-default"
+

@@ -1,0 +1,7 @@
+%h1 Listing centers
+
+#partial_page
+  =render "centers/table", centers: @centers
+%br
+
+= link_to 'New Center', new_center_path, class: "btn btn-primary"

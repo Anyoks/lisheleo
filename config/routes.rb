@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :centers
   get 'dashboard', :to => 'dashboard#index'
 
   resources :available_times

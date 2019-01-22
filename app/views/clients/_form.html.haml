@@ -14,15 +14,23 @@
         %form{:_lpchecked => "1", :lpformnum => "1", :role => "form"}
           .box-body
             .row
-              .col-md-6
+              .col-md-3
                 .form-group
-                  %label{:for => "exampleInputEmail1"} client Name
+                  %label{:for => "exampleInputEmail1"} First Name
                   / = f.label :name
                   = f.text_field :first_name, class: "form-control", placeholder: "Enter First name"
-              .col-md-6
+              .col-md-3
                 .form-group
-                  %label{:for => "exampleInputPassword1"} Location
+                  %label{:for => "exampleInputPassword1"} Last Name
                   = f.text_field :last_name, class: "form-control", placeholder: "Enter Last name"
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Where Do they Live?
+                  = f.text_field :location, class: "form-control", placeholder: "Enter Location"
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Gender
+                  = f.text_field :gender, class: "form-control", placeholder: "Enter client Gender"
             .row
               .col-md-6
                 .form-group
@@ -30,8 +38,10 @@
                   = f.text_field :phone_number, class: "form-control", placeholder: "Phone Number"
               .col-md-6
                 .form-group
-                  %label{:for => "exampleInputPassword1"} Gender
-                  = f.text_field :gender, class: "form-control", placeholder: "Enter client Gender"
+                  %label{:for => "exampleInputPassword1"} Select Center
+                  = f.input :center, class: "form-control", :label => "" do
+                    = f.select :center_id, Center.all.map { |c| [c.name, c.id] }, include_blank: false
+                  %span.help-block
             .row
 
           / /.box-body

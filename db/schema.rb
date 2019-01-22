@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181226044010) do
+ActiveRecord::Schema.define(version: 20190122075850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,14 @@ ActiveRecord::Schema.define(version: 20181226044010) do
     t.index ["time", "program_id"], name: "index_bookings_on_time_and_program_id"
   end
 
+  create_table "centers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+    t.string "phone_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "clients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -68,6 +76,9 @@ ActiveRecord::Schema.define(version: 20181226044010) do
     t.string "gender"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "center_id"
+    t.string "location"
+    t.index ["center_id"], name: "index_clients_on_center_id"
     t.index ["phone_number"], name: "index_clients_on_phone_number"
   end
 

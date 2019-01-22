@@ -1,0 +1,34 @@
+.row
+  .col-md-12
+    .box.box-primary
+      .box-header.with-border
+        %h3.box-title Provide center details
+      %form{:lpformnum => "1", :role => "form"}
+      = simple_form_for @center, html: { multipart: true } do |f|
+        - if @center.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@center.errors.count, "error")} prohibited this center from being saved:"
+            %ul
+              - @center.errors.full_messages.each do |message|
+                %li= message
+        %form{:_lpchecked => "1", :lpformnum => "1", :role => "form"}
+          .box-body
+            .row
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputEmail1"} Center Name
+                  / = f.label :name
+                  = f.text_field :name, class: "form-control", placeholder: "Enter Unique Name"
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Where is it Located?
+                  = f.text_field :location, class: "form-control", placeholder: "Enter Center Location"
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Contact Number
+                  = f.text_field :phone_number, class: "form-control", placeholder: "Enter Phone Number"
+            .row
+
+          / /.box-body
+          .box-footer
+            = f.submit class: "btn btn-primary"
