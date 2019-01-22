@@ -1,5 +1,18 @@
 Rails.application.routes.draw do
   
+
+  # resources :admin do
+  #   # get :make_moderator
+  #   # get :make_normal_user
+  #   delete 'admin/:id' => 'user#destroy', :via => :delete #, :as => :admin_destroy_user
+  #   get 'admin/:id' => 'staff#show', as: :admin
+  # end
+  get 'staff/index'
+  get 'staff/' => 'staff#index'
+  get 'staff/:id' => 'staff#show', as: :admin
+
+  get 'staff/show'
+
   resources :centers
   get 'dashboard', :to => 'dashboard#index'
 

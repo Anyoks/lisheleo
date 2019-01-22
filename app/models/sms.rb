@@ -22,6 +22,10 @@ class Sms < ApplicationRecord
 	has_one :booking
 	belongs_to :client
 	belongs_to :program
+
+	# def self.default_timezone
+	# 	:local
+	# end
 #  book
 #first_name
 #last_name
