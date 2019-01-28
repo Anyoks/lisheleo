@@ -142,6 +142,7 @@ B# dd/mm 9:30pm Dennis Orina
 				client				= Client.where( phone_number: "#{@phone_number}").first_or_initialize #Client.new( first_name: "#{first_name}", last_name: "#{last_name}", phone_number: "#{@phone_number}")
 				client.first_name   = first_name
 				client.last_name 	= last_name
+				client.center		= Center.first_or_create( name: "Default", location: "Nairobi")
 				client.save
 
 

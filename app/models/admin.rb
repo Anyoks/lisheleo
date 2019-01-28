@@ -102,8 +102,8 @@ class Admin < ApplicationRecord
 	end
 
    protected
-   def set_default_role
-	   self.role ||= Role.find_by_name('moderator') 
+#    def set_default_role
+# 	   self.role ||= Role.find_by_name('moderator') 
 	
-   end
+#    end
 end

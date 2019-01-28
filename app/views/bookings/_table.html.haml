@@ -43,8 +43,8 @@
                           -# = link_to "Images", admin_establishment_pictures_path(establishment), class: "label label-success"
                         -elsif current_admin && current_admin.is_admin?
                           = link_to 'Show', booking, class: "label label-warning"
-                          = link_to 'Edit', edit_booking_path(booking), class: "label label-default"
-                          = link_to 'Destroy', booking, method: :delete, data: { confirm: 'Are you sure?' }, class: "label label-danger"
+                          -# = link_to 'Edit', edit_booking_path(booking), class: "label label-default"
+                          = link_to 'Delete', booking, method: :delete, data: { confirm: 'Are you sure?' }, class: "label label-danger"
 
                 %tfoot
                   %tr

@@ -43,7 +43,7 @@
                         -elsif current_admin && current_admin.is_admin?
                           = link_to 'Show', client, class: "label label-warning","data-turbolinks" => "false"
                           = link_to 'Edit', edit_client_path(client), class: "label label-default"
-                          = link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' }, class: "label label-danger"
+                          = link_to 'Delete', client, method: :delete, data: { confirm: 'Are you sure?' }, class: "label label-danger"
 
                 %tfoot
                   %tr
