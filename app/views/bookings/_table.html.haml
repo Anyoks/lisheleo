@@ -5,7 +5,7 @@
         %h3.box-title Bookings
         .box-tools.pull-right
           .digg_pagination
-            -# = will_paginate establishments 
+            = will_paginate bookings 
       / /.box-header
       .box-body
         #example1_wrapper.dataTables_wrapper.form-inline.dt-bootstrap
@@ -57,10 +57,10 @@
           .row
             .col-sm-5
               .page_info
-                -# = page_entries_info establishments
+                = page_entries_info bookings
             .col-sm-7
               .digg_pagination
-                -# = will_paginate establishments 
+                = will_paginate bookings 
       / /.box-body
     / /.box
   / /.col
