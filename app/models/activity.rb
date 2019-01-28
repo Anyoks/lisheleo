@@ -3,5 +3,6 @@ class Activity < ApplicationRecord
   belongs_to :activity_type
   has_many :client_activities
   has_many :booking_activities
-  
+  # ActiveRecord::Base.default_timezone = :utc
+
 end
