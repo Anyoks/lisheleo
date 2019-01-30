@@ -91,12 +91,25 @@ function initCal() {
     $('#calendar').fullCalendar(
 
         {
+            eventLimit: true,
             droppable: true,
             header: {
                 left: 'prev,next, today',
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay'
             },
+            views: {
+                agenda: {
+                    eventLimit: 3, // adjust to 6 only for agendaWeek/agendaDay
+                },
+                week: {
+                    eventLimit: 3
+                },
+                day: {
+                    eventLimit: 3 // options apply to basicDay and agendaDay views
+                  }
+            },
+            eventLimit: 2,
             selectable: true,
             editable: true,
             defaultView: 'agendaWeek', // changing view to agenda view    
