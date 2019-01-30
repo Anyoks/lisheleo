@@ -18,6 +18,7 @@ class Client < ApplicationRecord
 
 	belongs_to :center
 
+	validates_presence_of :first_name, :last_name , :phone_number
 
 	def full_names
 		return "#{self.first_name} #{self.last_name}"
