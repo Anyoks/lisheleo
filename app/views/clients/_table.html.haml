@@ -5,7 +5,7 @@
         %h3.box-title Bookings
         .box-tools.pull-right
           .digg_pagination
-            -# = will_paginate establishments 
+            = will_paginate clients 
       / /.box-header
       .box-body
         #example1_wrapper.dataTables_wrapper.form-inline.dt-bootstrap
@@ -34,14 +34,14 @@
                       / %td= image_tag establishment.logo.url(:small)
                       %td 
                         -if current_admin && current_admin.is_moderator?
-                          = link_to 'Show', client, class: "label label-warning", "data-turbolinks" => "false"
+                          = link_to 'Show Details', client, class: "label label-warning", "data-turbolinks" => "false"
                           = link_to 'Edit', edit_client_path(client), class: "label label-default"
                          
                           -# = link_to 'Edit', edit_admin_establishment_path(establishment), class: "label label-default"
                           -# = link_to "Details", admin_establishment_path(establishment), class: "label label-warning"                         
                           -# = link_to "Images", admin_establishment_pictures_path(establishment), class: "label label-success"
                         -elsif current_admin && current_admin.is_admin?
-                          = link_to 'Show', client, class: "label label-warning","data-turbolinks" => "false"
+                          = link_to 'Show Details', client, class: "label label-warning","data-turbolinks" => "false"
                           = link_to 'Edit', edit_client_path(client), class: "label label-default"
                           = link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' }, class: "label label-danger"
 
@@ -55,10 +55,10 @@
           .row
             .col-sm-5
               .page_info
-                -# = page_entries_info establishments
+                = page_entries_info clients
             .col-sm-7
               .digg_pagination
-                -# = will_paginate establishments 
+                = will_paginate clients 
       / /.box-body
     / /.box
   / /.col
