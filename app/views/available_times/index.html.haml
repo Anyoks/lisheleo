@@ -1,25 +1,7 @@
-%h1 Listing available_times
-
-%table
-  %thead
-    %tr
-      %th Day
-      %th Start time
-      %th End time
-      %th
-      %th
-      %th
-
-  %tbody
-    - @available_times.each do |available_time|
-      %tr
-        %td= available_time.day
-        %td= available_time.start_time
-        %td= available_time.end_time
-        %td= link_to 'Show', available_time
-        %td= link_to 'Edit', edit_available_time_path(available_time)
-        %td= link_to 'Destroy', available_time, method: :delete, data: { confirm: 'Are you sure?' }
+%h1 Listing Available Times for Programs
 
 %br
+#partial_page
+  =render "available_times/table", available_times: @available_times
 
-= link_to 'New Available time', new_available_time_path
+= link_to 'New Available time', new_available_time_path,  class: "btn btn-primary"

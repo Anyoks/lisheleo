@@ -1,10 +1,43 @@
-= simple_form_for(@available_time) do |f|
-  = f.error_notification
+.row
+  .col-md-12
+    .box.box-primary
+      .box-header.with-border
+        %h3.box-title Provide available_time details
+      %form{:lpformnum => "1", :role => "form"}
+      = simple_form_for @available_time, html: { multipart: true } do |f|
+        - if @available_time.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@available_time.errors.count, "error")} prohibited this available_time from being saved:"
+            %ul
+              - @available_time.errors.full_messages.each do |message|
+                %li= message
+        %form{:_lpchecked => "1", :lpformnum => "1", :role => "form"}
+          .box-body
+            -# %p Beginning and ending time of day are the office hours, excluding lunch  or break times.
+            -# %p To h
+            .row
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputEmail1"} Choose program
+                  %p
+                  = f.select :program_id, Program.all.map { |c| [c.name, c.id] }, include_blank: false, :selected => params[:program_id]
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputEmail1"} Choose a Day
+                  %p
+                  = f.select :day, options_for_select([['Monday', "Monday"], ['Tuesday', "Tuesday"], ['Wednesday', "Wednesday"], ['Thursday', "Thursday"], ['Friday', "Friday"]])
+                  -# = f.text_field :day, class: "form-control", placeholder: "Enter Unique Name"
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Beginning Time of Day (24h)
+                  = f.input :start_time, class: "form-control", placeholder: "Enter a Starting time"
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} End Time of day  (24h)
+                  = f.input :end_time, class: "form-control", placeholder: "Enter an Ending time"
+            .row
 
-  .form-inputs
-    = f.input :day
-    = f.input :start_time
-    = f.input :end_time
+          / /.box-body
+          .box-footer
+            = f.submit class: "btn btn-primary"
 
-  .form-actions
-    = f.button :submit
