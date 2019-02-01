@@ -11,6 +11,10 @@
 #  confirmation    :boolean          default(FALSE)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  duration        :integer          default(50)
+#  code            :string
+#  color           :string
+#  participants    :integer          default(1), not null
 #
 
 class Program < ApplicationRecord
@@ -20,6 +24,9 @@ class Program < ApplicationRecord
 		program.description.nil? ?  program.description : program.description = program.description.downcase 
 		program.sms_description.nil? ?   program.sms_description : program.sms_description = program.sms_description.downcase  }
 
+	validates_presence_of :code, :name, :description
+	validates_uniqueness_of  :code, :color
+ 
 	has_many :available_times
 	has_many :bookings
 	has_many :sms
@@ -30,9 +37,8 @@ class Program < ApplicationRecord
 	end
 
 # 	max bookings per day
-	def max_bookings day
-		# find the duration of the session (start_time  - end_time in minutes ) then divide by session 
-		# duration to find the  bookings per day on the fly.
+	def max_sessions day
+		# return the number of people allowed to book per day
 		available_times_for_this_day = self.available_times.where(day: day)
 
 		total_session_time = 0
@@ -52,13 +58,22 @@ class Program < ApplicationRecord
 
 	end
 
+	def max_participants_per_session
+		return self.participants
+	end
+
+	def max_bookings day
+		# total number if clients that can book this program in a particular session on this day
+		max_participants_per_session
+	end
+
 	def week_max_bookings
 		all_days = self.days
 
 		total = 0
 
 		all_days.each do |day|
-			total += max_bookings day
+			total += max_sessions day
 		end
 
 		return total
@@ -145,7 +160,7 @@ class Program < ApplicationRecord
 
 		session_times.each do |sess|
 			# sess {"Monday"=>"06:00 AM - 07:00 AM, 06:00 PM - 07:00 PM"} 
-			no_of_start_times = self.max_bookings(sess[0]) 
+			no_of_start_times = self.max_sessions(sess[0]) 
 
 			start_end_times_list = sess[1].split(',') # result ::  ["06:00 AM - 07:00 AM", " 06:00 PM - 07:00 PM"]
 
@@ -296,7 +311,7 @@ class Program < ApplicationRecord
 
 	# this week
 	def get_date_for day
-		days = { "Monday" => 1 , "Tuesday" => 2 ,  "Wedneday" => 3 , "Thursday" => 4 , "Friday" => 5 }
+		days = { "Monday" => 1 , "Tuesday" => 2 ,  "Wednesday" => 3 , "Thursday" => 4 , "Friday" => 5 }
 
 		diff = days[day] - Date.today.wday
 		date = advance_date diff
