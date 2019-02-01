@@ -12,12 +12,17 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  time           :datetime
+#  program_id     :integer
+#  end_time       :datetime
 #
 
 class Booking < ApplicationRecord
 
-	validates :time, uniqueness: { scope: [:program_id ]} #, :another_medium] }
-	validates_presence_of :description
+	# validates :time, uniqueness: { scope: [:program_id ]} #, :another_medium] }
+	validates :time, uniqueness: { scope: [:program_id ,:client_id] }
+	validates :client_id, uniqueness: { scope: [:program_id ,:time] }
+	validates :program_id, uniqueness: { scope: [:client_id ,:time] }
+	validates_presence_of :description 
 
 	belongs_to :sms
 	belongs_to :client
@@ -72,7 +77,7 @@ class Booking < ApplicationRecord
 			# check time
 			# convert time to have same date as available time then check
 			# if time >= avalable.start_time  && time + duration < available.endtime
-			
+			logger.debug("DAY INCLUDED")
 			
 			# returns an array of times ["02:00 PM - 04:00 PM", "08:00 PM - 09:00 PM" ]
 			program_time = self.program.sessions_for_day self.day 
@@ -85,20 +90,25 @@ class Booking < ApplicationRecord
 			program_time.each { |t| program_end_time << t.split('-')[1] }
 
 			
+			# byebug
 			program_start_time.each_with_index do |time, index|
 				# byebug
 				if Time.zone.parse(self.ftime) >= Time.zone.parse(time) && Time.zone.parse(self.f_end_time) < Time.zone.parse(program_end_time[index])
-					
+					# byebug
 					# # check if a booking already exists for that particular time
 					# 
 					# check if there's a booking for this program on this date & time
-					bookings = Booking.where(date: self.date, time: self.time ,program_id: self.program.id)
+					bookings = Booking.where(time: self.time ,program_id: self.program.id)
 					
 					# check each bookings time
 					if bookings.present?
+						# byebug
+						logger.debug("TOTAL BOOKINGS #{bookings.count} PARTICIPATAS #{self.program.participants}")
 						
+						logger.debug(" ELSE Participants are #{self.program.participants} and the bookings are #{bookings.count}")
+						# byebug
 						# check if max bookings for this day have been reached
-						if bookings.count >= self.program.max_bookings(self.day)
+						if bookings.count >= self.program.max_participants_per_session #self.program.max_sessions(self.day)
 							
 							# I'm thinking I should query available slots and present the user with proposed time
 							# slots for booking as opposed to leave them guessing till they get it right.
@@ -186,7 +196,7 @@ class Booking < ApplicationRecord
 	
 								counter +=1
 							end				
-						end
+						end	
 					else
 						# return true, this is a successful booking
 						# return true, "there are no booking today You can book successfully"

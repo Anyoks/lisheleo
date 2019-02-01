@@ -29,10 +29,10 @@
 -#         %td= booking.description
 -#         %td= booking.status
 -#         %td= booking.confirm_status
--#         %td= link_to 'Show', booking
+-#         %td= link_to 'Show Details', booking
 -#         %td= link_to 'Edit', edit_booking_path(booking)
 -#         %td= link_to 'Destroy', booking, method: :delete, data: { confirm: 'Are you sure?' }
 
 -# %br
 
-// = link_to 'New Booking', new_booking_path, :remote => true , class: "btn btn-primary"
+-# = link_to 'New Booking', new_booking_path , :remote => true , 'data-toggle' =>  "modal", class: "btn btn-primary"
