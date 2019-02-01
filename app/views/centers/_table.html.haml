@@ -5,7 +5,7 @@
         %h3.box-title Centers
         .box-tools.pull-right
           .digg_pagination
-            -# = will_paginate establishments 
+            = will_paginate centers 
       / /.box-header
       .box-body
         #example1_wrapper.dataTables_wrapper.form-inline.dt-bootstrap
@@ -29,10 +29,10 @@
                       %td= center.phone_number
                       %td 
                         -if current_admin && current_admin.is_moderator?
-                          = link_to 'Show', center, class: "label label-warning"
+                          = link_to 'Show Details', center, class: "label label-warning"
                           = link_to 'Edit', edit_center_path(center), class: "label label-default"
                         -elsif current_admin && current_admin.is_admin?
-                          = link_to 'Show', center, class: "label label-warning"
+                          = link_to 'Show Details', center, class: "label label-warning"
                           = link_to 'Edit', edit_center_path(center), class: "label label-default"
                           = link_to 'Destroy', center, method: :delete, data: { confirm: 'Are you sure?' }, class: "label label-danger"
 
@@ -45,10 +45,10 @@
           .row
             .col-sm-5
               .page_info
-                -# = page_entries_info establishments
+                = page_entries_info centers
             .col-sm-7
               .digg_pagination
-                -# = will_paginate establishments 
+                = will_paginate centers 
       / /.box-body
     / /.box
   / /.col
