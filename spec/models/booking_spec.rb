@@ -12,6 +12,8 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  time           :datetime
+#  program_id     :integer
+#  end_time       :datetime
 #
 
 require 'rails_helper'

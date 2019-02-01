@@ -9,6 +9,8 @@
 #  gender       :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  center_id    :uuid
+#  location     :string
 #
 
 require 'rails_helper'
