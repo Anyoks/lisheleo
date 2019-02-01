@@ -31,9 +31,9 @@
                       %td= admin.role.name
                       %td 
                         -if current_admin && current_admin.is_moderator?
-                          = link_to 'Show', admin_path(admin), class: "label label-warning"
+                          = link_to 'Show Details', admin_path(admin), class: "label label-warning"
                         -elsif current_admin && current_admin.is_admin?
-                          = link_to 'Show', admin_path(admin), class: "label label-warning"
+                          = link_to 'Show Details', admin_path(admin), class: "label label-warning"
                         -#   = link_to 'Destroy', admin, method: :delete, data: { confirm: 'Are you sure?' }, class: "label label-danger"
 
                 %tfoot
