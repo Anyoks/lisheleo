@@ -11,6 +11,8 @@ class ProgramsController < ApplicationController
   # GET /programs/1.json
   def show
     @available_times  = @program.available_times.paginate(:page => params[:page], :per_page => 20)
+    @today            = @program.bookings.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).count
+
   end
 
   # GET /programs/new
@@ -71,6 +73,6 @@ class ProgramsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def program_params
-      params.require(:program).permit(:name, :description, :sms_description, :parallel, :color, :code)
+      params.require(:program).permit(:name, :description, :sms_description, :parallel, :color, :code, :participants)
     end
 end

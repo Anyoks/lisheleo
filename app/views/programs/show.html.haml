@@ -21,7 +21,8 @@
       .info-box-content
         %span.info-box-text Program
         %span.info-box-number #{@program.name.camelcase}
-        %p 5 bookings today
+        %p #{@program.participants} participants per session
+        %p #{@today} bookings today
       / /.info-box-content
     / /.info-box
   / /.col
