@@ -4,12 +4,13 @@ class ProgramsController < ApplicationController
   # GET /programs
   # GET /programs.json
   def index
-    @programs = Program.all
+    @programs = Program.all.paginate(:page => params[:page], :per_page => 20)
   end
 
   # GET /programs/1
   # GET /programs/1.json
   def show
+    @available_times  = @program.available_times.paginate(:page => params[:page], :per_page => 20)
   end
 
   # GET /programs/new
@@ -28,7 +29,8 @@ class ProgramsController < ApplicationController
 
     respond_to do |format|
       if @program.save
-        format.html { redirect_to @program, notice: 'Program was successfully created.' }
+        format.html { redirect_to programs_url, notice: 'Program was successfully created.' }
+        # format.html { redirect_to @program, notice: 'Program was successfully created.' }
         format.json { render :show, status: :created, location: @program }
       else
         format.html { render :new }
@@ -69,6 +71,6 @@ class ProgramsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def program_params
-      params.require(:program).permit(:name, :description, :sms_description, :parallel, :color)
+      params.require(:program).permit(:name, :description, :sms_description, :parallel, :color, :code)
     end
 end

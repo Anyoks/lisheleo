@@ -19,6 +19,6 @@
 
 %br
 -if current_admin && current_admin.is_previlaged?
-  %p= link_to 'New Program', new_program_path, :remote => true, class: "btn btn-primary"
+  %p= link_to 'New Program', new_program_path, class: "btn btn-primary" #, :remote => true, 'data-toggle' =>  "modal", class: "btn btn-primary"
 
 

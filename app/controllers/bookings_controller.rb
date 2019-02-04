@@ -4,7 +4,7 @@ class BookingsController < ApplicationController
   # GET /bookings
   # GET /bookings.json
   def index
-    @bookings = Booking.all.order('created_at DESC').paginate(:page => params[:page], :per_page => 20)
+    @bookings = Booking.all.paginate(:page => params[:page], :per_page => 20)
   end
 
   # GET /bookings/1
@@ -15,6 +15,13 @@ class BookingsController < ApplicationController
   # GET /bookings/new
   def new
     @booking = Booking.new
+    respond_to do |format|
+
+      format.html
+  
+      format.js
+  
+    end
   end
 
   # GET /bookings/1/edit

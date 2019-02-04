@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190122095929) do
+ActiveRecord::Schema.define(version: 20190131144235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20190122095929) do
     t.datetime "time"
     t.integer "program_id"
     t.datetime "end_time"
+    t.index ["time", "client_id", "program_id"], name: "index_bookings_on_time_and_client_id_and_program_id", unique: true
     t.index ["time", "program_id"], name: "index_bookings_on_time_and_program_id"
   end
 
@@ -147,9 +148,12 @@ ActiveRecord::Schema.define(version: 20190122095929) do
     t.boolean "confirmation", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "duration"
+    t.integer "duration", default: 50
     t.string "code"
     t.string "color"
+    t.integer "participants", default: 1, null: false
+    t.index ["code"], name: "index_programs_on_code", unique: true
+    t.index ["color"], name: "index_programs_on_color", unique: true
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|

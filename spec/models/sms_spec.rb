@@ -13,6 +13,8 @@
 #  status       :boolean          default(FALSE)
 #  client_id    :uuid
 #  time         :datetime
+#  code         :string
+#  program_id   :integer
 #
 
 require 'rails_helper'

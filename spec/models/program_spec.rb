@@ -11,6 +11,10 @@
 #  confirmation    :boolean          default(FALSE)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  duration        :integer          default(50)
+#  code            :string
+#  color           :string
+#  participants    :integer          default(1), not null
 #
 
 require 'rails_helper'

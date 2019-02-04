@@ -1,4 +1,4 @@
-%p#notice= notice
+-# %p#notice= notice
 
 %p
   %b Name:
@@ -13,6 +13,58 @@
   %b Parallel:
   = @program.parallel
 
-= link_to 'Edit', edit_program_path(@program)
+.row
+  .col-md-4.col-sm-6.col-xs-12
+    .info-box
+      %span.info-box-icon.bg-aqua
+        %i.fa.fa-book
+      .info-box-content
+        %span.info-box-text Program
+        %span.info-box-number #{@program.name.camelcase}
+        %p 5 bookings today
+      / /.info-box-content
+    / /.info-box
+  / /.col
+  .col-md-4.col-sm-6.col-xs-12
+    .info-box
+      %span.info-box-icon.bg-green
+        %i.fa.fa-flag-o
+      .info-box-content
+        %span.info-box-text
+        %p #{ truncate(@program.description)}
+        %span.info-box-number 410
+      / /.info-box-content
+    / /.info-box
+  / /.col
+  .col-md-4.col-sm-6.col-xs-12
+    .info-box
+      %span.info-box-icon.bg-yellow
+        %i.fa.fa-files-o
+      .info-box-content
+        %span.info-box-text Can it Run parallel?
+        %span.info-box-number #{@program.parallel}
+      / /.info-box-content
+    / /.info-box
+  / /.col
+  -# .col-md-3.col-sm-6.col-xs-12
+  -#   .info-box
+  -#     %span.info-box-icon.bg-red
+  -#       %i.fa.fa-star-o
+  -#     .info-box-content
+  -#       %span.info-box-text Likes
+  -#       %span.info-box-number 93,139
+  -#     / /.info-box-content
+  -#   / /.info-box
+  -# / /.col
+
+
+%br
+#partial_page
+  =render "available_times/table", available_times: @available_times
+
+
+= link_to 'Back', programs_path, class: "btn btn-default"
 \|
-= link_to 'Back', programs_path
+= link_to 'Edit Program', edit_program_path(@program), class: "btn btn-default"
+\|
+= link_to 'Add Available time', new_program_available_time_path(program_id: @program.id ), class: "btn btn-default"

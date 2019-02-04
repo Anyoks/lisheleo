@@ -1,10 +1,11 @@
 class AvailableTimesController < ApplicationController
-  before_action :set_available_time, only: [:show, :edit, :update, :destroy]
+  before_action :set_available_time, only: [:show, :edit, :update]
 
   # GET /available_times
   # GET /available_times.json
   def index
-    @available_times = AvailableTime.all
+    @available_times = AvailableTime.all.paginate(:page => params[:page], :per_page => 20)
+    # @program = @available_time.first.program
   end
 
   # GET /available_times/1
@@ -25,10 +26,12 @@ class AvailableTimesController < ApplicationController
   # POST /available_times.json
   def create
     @available_time = AvailableTime.new(available_time_params)
+    @program  = @available_time.program
 
     respond_to do |format|
       if @available_time.save
-        format.html { redirect_to @available_time, notice: 'Available time was successfully created.' }
+        # format.html { redirect_to available_times_url, notice: 'Available time was successfully created.' }
+        format.html { redirect_to @program, notice: 'Available time was successfully created.' }
         format.json { render :show, status: :created, location: @available_time }
       else
         format.html { render :new }
@@ -40,9 +43,11 @@ class AvailableTimesController < ApplicationController
   # PATCH/PUT /available_times/1
   # PATCH/PUT /available_times/1.json
   def update
+    @program =  @available_time.program
     respond_to do |format|
       if @available_time.update(available_time_params)
-        format.html { redirect_to @available_time, notice: 'Available time was successfully updated.' }
+        # format.html { redirect_to @available_time, notice: 'Available time was successfully updated.' }
+        format.html { redirect_to @program, notice: 'Available time was successfully updated.' }
         format.json { render :show, status: :ok, location: @available_time }
       else
         format.html { render :edit }
@@ -54,9 +59,11 @@ class AvailableTimesController < ApplicationController
   # DELETE /available_times/1
   # DELETE /available_times/1.json
   def destroy
+    @available_time = AvailableTime.find(params[:id])
+    @program =  @available_time.program
     @available_time.destroy
     respond_to do |format|
-      format.html { redirect_to available_times_url, notice: 'Available time was successfully destroyed.' }
+      format.html { redirect_to @program, notice: 'Available time was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +76,6 @@ class AvailableTimesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def available_time_params
-      params.require(:available_time).permit(:day, :start_time, :end_time)
+      params.require(:available_time).permit(:day, :start_time, :end_time, :program_id)
     end
 end

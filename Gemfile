@@ -101,5 +101,5 @@ gem 'momentjs-rails'
 gem 'jquery-ui-rails'
 # color picker
 gem 'jquery-minicolors-rails'
-# Pagination
+# pagination
 gem 'will_paginate', '~> 3.1.1'

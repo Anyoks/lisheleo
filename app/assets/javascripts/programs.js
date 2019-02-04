@@ -21,3 +21,13 @@
     //     console.log('COLOR PICKER EVENT ');
     //     $('.input-group-addon').css('background-color', event.color.toString());
     // });
+    $('#program_color').colorpicker().on('colorpickerChange', function (e) {
+        $('.input-group-addon').css('background-color', event.color.toString()); 
+        // initialize the input on colorpicker creation
+    //    io.val(e.color.string());
+    //
+    //    io.on('change keyup', function () {
+    //        e.colorpicker.setValue(io.val());
+    //    });
+        console.log('COLOR PICKER www');
+    })

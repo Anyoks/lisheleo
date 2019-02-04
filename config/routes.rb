@@ -17,7 +17,9 @@ Rails.application.routes.draw do
   get 'dashboard', :to => 'dashboard#index'
 
   resources :available_times
-  resources :programs
+  resources :programs do
+    resources :available_times
+  end
   resources :clients
   resources :bookings
   resources :sms
