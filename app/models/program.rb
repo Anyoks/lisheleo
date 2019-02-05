@@ -171,20 +171,25 @@ class Program < ApplicationRecord
 				start_end_times_real << start_end_times_list[i].split('-') # result::  [["06:00 AM ", " 07:00 AM"], [" 06:00 PM ", " 07:00 PM"]] 
 				i = i + 1
 			end	
-
+			
+			puts " STARTING TIMES real  #{ start_end_times_real}"
 			# puts "Back to main loop ******"
 			starting_times_for_each_session[sess[0]] = []#start_end_times_real[0][0]
 			s = 0 #starting and ending times array counter
 			j = 0 #no of booking times for particular day counter
 			while s < start_end_times_real.size
-				
-					starting_times_for_each_session[sess[0]] << start_end_times_real[s][0] #"06:00 PM " & "06:00 AM"
-					# puts "Back to while loop ******"
-				
+				# get start times first.
+				starting_times_for_each_session[sess[0]] << start_end_times_real[s][0]
+				s = s + 1
+			end
+			while s < start_end_times_real.size
+					
 					while j < no_of_start_times
 						# byebug
 						# sometimes the j counter goes ahead, when a time  is not inserted into the hash, so we have to take it back by one when that happens
-						booking_time =  starting_times_for_each_session[sess[0]][j].nil?  ?  "#{(Time.zone.parse(starting_times_for_each_session[sess[0]][j-1]) + (self.duration * 60)).strftime("%I:%M %p")}"  : "#{(Time.zone.parse(starting_times_for_each_session[sess[0]][j]) + (self.duration * 60)).strftime("%I:%M %p")}"
+						puts " HERE IT IS #{ starting_times_for_each_session[sess[0]][j]}"
+						# booking_time =  starting_times_for_each_session[sess[0]][j].nil?  ?  "#{(Time.zone.parse(starting_times_for_each_session[sess[0]][j-1]) + (self.duration * 60)).strftime("%I:%M %p")}"  : "#{(Time.zone.parse(starting_times_for_each_session[sess[0]][j]) + (self.duration * 60)).strftime("%I:%M %p")}"
+						booking_time =  starting_times_for_each_session[sess[s]][j].nil?  ?  "#{(Time.zone.parse(starting_times_for_each_session[sess[s]][j-1]) + (self.duration * 60)).strftime("%I:%M %p")}"  : "#{(Time.zone.parse(starting_times_for_each_session[sess[s]][j]) + (self.duration * 60)).strftime("%I:%M %p")}"
 						
 						latest_time_to_book = last_booking_times[sess[0]]
 						# puts "last booking #{latest_time_to_book} "
@@ -196,10 +201,7 @@ class Program < ApplicationRecord
 						j += 1						
 					end
 				s = s + 1
-			end
-			
-			# puts "#{no_of_start_times}"
-			
+			end			
 		end
 		
 		return starting_times_for_each_session
