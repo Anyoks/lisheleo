@@ -32,7 +32,8 @@
             textColor: 'white',
             displayEventEnd: true,
             displayEventTime: true,
-            weekends: false,
+            // weekends: false,
+            hiddenDays: [ 7],
             eventAfterRender: function (event, $el, view) {
                 // var formattedTime = $.fullCalendar.formatDates(event.start, event.end, "HH:mm { - HH:mm}");
                 eventsdate = moment(event.start).format('hh:mm a');
