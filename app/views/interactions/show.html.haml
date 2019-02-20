@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @interaction.name
+%p
+  %b Description:
+  = @interaction.description
+%p
+  %b Date:
+  = @interaction.date
+%p
+  %b Client:
+  = @interaction.client.full_names
+
+= link_to 'Edit', edit_client_interaction_path(:id => @interaction.id), class: "btn btn-default"
+\|
+= link_to 'Back', client_interactions_path, class: "btn btn-default"

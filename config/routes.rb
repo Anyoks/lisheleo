@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
 
+  resources :interactions
   # resources :admin do
   #   # get :make_moderator
   #   # get :make_normal_user
@@ -20,7 +21,9 @@ Rails.application.routes.draw do
   resources :programs do
     resources :available_times
   end
-  resources :clients
+  resources :clients do
+    resources :interactions
+  end
   resources :bookings
   resources :sms
   devise_for :admins

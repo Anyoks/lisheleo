@@ -1,0 +1,40 @@
+.row
+  .col-md-12
+    .box.box-primary
+      .box-header.with-border
+        %h3.box-title Provide interactoin details for #{@client.full_names}
+      %form{:lpformnum => "1", :role => "form"}
+      = simple_form_for @interaction, html: { multipart: true } do |f|
+        - if @interaction.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@interaction.errors.count, "error")} prohibited this client from being saved:"
+            %ul
+              - @interaction.errors.full_messages.each do |message|
+                %li= message
+        %form{:_lpchecked => "1", :lpformnum => "1", :role => "form"}
+          .box-body
+            .row
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputEmail1"} Interaction Name
+                  / = f.label :name
+                  = f.text_field :name, class: "form-control", placeholder: "Enter name"
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Give a description
+                  = f.text_area :description, class: "form-control", placeholder: "Enter Last name"
+
+              .col-md-6
+                .form-group
+                  %label{:for => "exampleInputPassword1"} When?
+                  = f.input :date, class: "form-control", placeholder: "Phone Number"
+            .row
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} #{@client.full_names}
+                  %p
+                  = f.input :client_id, :as => :hidden, :input_html => { :value => "#{@client.id}" }
+          / /.box-body
+          .box-footer
+            = f.submit class: "btn btn-primary"
+

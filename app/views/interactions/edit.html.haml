@@ -1,0 +1,7 @@
+%h1 Editing interaction
+
+= render 'form'
+
+= link_to 'Show', client_interaction_path(:id => @interaction.id), class: "btn btn-default"
+\|
+= link_to 'Back', client_interactions_path, class: "btn btn-default"

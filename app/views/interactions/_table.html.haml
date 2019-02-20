@@ -1,0 +1,59 @@
+.row
+  .col-xs-9
+    .box
+      .box-header
+        %h3.box-title External Interactions
+        .box-tools.pull-right
+          .digg_pagination
+            = will_paginate interactions 
+      / /.box-header
+      .box-body
+        #example1_wrapper.dataTables_wrapper.form-inline.dt-bootstrap
+          .row
+            %br
+          .row
+            .col-sm-12
+              %table#example1.table.table-bordered.table-striped.dataTable{"aria-describedby" => "example1_info", :role => "grid"}
+                %thead
+                  %tr{:role => "row"}
+                    %th.sorting_asc{"aria-controls" => "example1", "aria-label" => "Rendering engine: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Full Names
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Platform(s): activate to sort column ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Interaction Name 
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Engine version: activate to sort column ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Date                    
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Options
+                %tbody
+                  - interactions.each do |interaction|
+
+                    %tr{:class => "#{cycle('even', 'odd')}"}
+                      
+                      %td= interaction.client.full_names                      
+                      %td= interaction.name
+                      %td= interaction.date                        
+                      %td 
+                        -if current_admin && current_admin.is_moderator?
+                          = link_to 'Show Details', client_interaction_path(:id => interaction.id), class: "label label-warning", "data-turbolinks" => "false"
+                          = link_to 'Edit', edit_client_interaction_path(:id => interaction.id), class: "label label-default"
+                         
+                          -# = link_to 'Edit', edit_admin_establishment_path(establishment), class: "label label-default"
+                          -# = link_to "Details", admin_establishment_path(establishment), class: "label label-warning"                         
+                          -# = link_to "Images", admin_establishment_pictures_path(establishment), class: "label label-success"
+                        -elsif current_admin && current_admin.is_admin?
+                          = link_to 'Show Details', client_interaction_path( :id => interaction.id), class: "label label-warning","data-turbolinks" => "false"
+                          = link_to 'Edit', edit_client_interaction_path(:id => interaction.id), class: "label label-default"
+                          = link_to 'Delete', client_interaction_path(:id => interaction.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "label label-danger"
+
+                %tfoot
+                  %tr
+                    %th{:colspan => "1", :rowspan => "1"} Full Names                    
+                    %th{:colspan => "1", :rowspan => "1"} Interaction name
+                    %th{:colspan => "1", :rowspan => "1"} Date                
+                    %th{:colspan => "1", :rowspan => "1"} Options
+          .row
+            .col-sm-5
+              .page_info
+                = page_entries_info interactions
+            .col-sm-7
+              .digg_pagination
+                = will_paginate interactions 
+      / /.box-body
+    / /.box
+  / /.col

@@ -1,0 +1,7 @@
+%h1 Listing interactions
+%br
+
+#partial_page
+  =render "interactions/table", interactions: @interactions#the table that was previously here was extracted to the partial to be DRY. seems like I needed it more than I thought! :-)
+
+= link_to 'New Interaction', new_client_interaction_path, class: "btn btn-primary"
