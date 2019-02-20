@@ -16,22 +16,24 @@
               %table#example1.table.table-bordered.table-striped.dataTable{"aria-describedby" => "example1_info", :role => "grid"}
                 %thead
                   %tr{:role => "row"}
-                    %th.sorting_asc{"aria-controls" => "example1", "aria-label" => "Rendering engine: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :style => "width: 100px;", :tabindex => "0"} First Name
-                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Browser: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 100px;", :tabindex => "0"} Last Name
-                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Platform(s): activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 180px;", :tabindex => "0"} Phone Number
-                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Engine version: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 50px;", :tabindex => "0"} Gender
-                    / %th.sorting{"aria-controls" => "example1", "aria-label" => "Engine version: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 156px;", :tabindex => "0"} Logo
-                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 250px;", :tabindex => "0"} Options
+                    %th.sorting_asc{"aria-controls" => "example1", "aria-label" => "Rendering engine: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Full Names                    
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Platform(s): activate to sort column ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Phone Number
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Engine version: activate to sort column ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Gender
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Engine version: activate to sort column ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Center
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Options
                 %tbody
                   - clients.each do |client|
 
                     %tr{:class => "#{cycle('even', 'odd')}"}
                       
-                      %td= client.first_name
-                      %td= client.last_name
+                      %td= client.full_names                      
                       %td= client.phone_number
-                      %td= client.gender
-                      / %td= image_tag establishment.logo.url(:small)
+                      %td
+                        -if client.gender.nil?
+                          = "unspecified"
+                        - else
+                          =client.gender.gender.camelcase
+                      %td= client.center.nil? ? 'Unspecified' : client.center.name
                       %td 
                         -if current_admin && current_admin.is_moderator?
                           = link_to 'Show Details', client, class: "label label-warning", "data-turbolinks" => "false"
@@ -47,10 +49,10 @@
 
                 %tfoot
                   %tr
-                    %th{:colspan => "1", :rowspan => "1"} First Name
-                    %th{:colspan => "1", :rowspan => "1"} Last Name
+                    %th{:colspan => "1", :rowspan => "1"} Full Names                    
                     %th{:colspan => "1", :rowspan => "1"} Phone Number
                     %th{:colspan => "1", :rowspan => "1"} Gender
+                    %th{:colspan => "1", :rowspan => "1"} Center
                     %th{:colspan => "1", :rowspan => "1"} Options
           .row
             .col-sm-5

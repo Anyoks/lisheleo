@@ -7,7 +7,7 @@
     .info-box-content
       %span.info-box-text #{@client.first_name}  #{@client.last_name}
       %span.info-box-number #{@client.phone_number}
-      %span.info-box-text #{@client.gender.gender}
+      %span.info-box-text   #{@client.gender.nil? ?  'Unspecified' : @client.gender.gender }
     / /.info-box-content
   / /.info-box
 
@@ -52,6 +52,54 @@
         / the events
         #my-draggable
 
+.row
+  .col-xs-12
+    .box
+      .box-header
+        %h3.box-title Full Client Details
+      / /.box-header
+      .box-body
+        #example1_wrapper.dataTables_wrapper.form-inline.dt-bootstrap
+          .row
+            %br
+          .row
+            .col-sm-12
+              %table#example1.table.table-bordered.table-striped.dataTable{"aria-describedby" => "example1_info", :role => "grid"}
+                %thead
+                  %tr{:role => "row"}
+                    %th.sorting_asc{"aria-controls" => "example1", "aria-label" => "Rendering engine: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Full Names
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Platform(s): activate to sort column ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Phone Number
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Engine version: activate to sort column ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Gender
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1",:tabindex => "0"} DOB
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "Engine version: activate to sort column ascending", :colspan => "1", :rowspan => "1",  :tabindex => "0"} Center
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Mariatl
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1",:tabindex => "0"} Occupation
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1",:tabindex => "0"} Employer
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1",:tabindex => "0"} ID No.
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1",:tabindex => "0"} Alt contact
+                    %th.sorting{"aria-controls" => "example1", "aria-label" => "CSS grade: activate to sort column ascending", :colspan => "1", :rowspan => "1",:tabindex => "0"} Realtionship
+                %tbody
+
+                  %tr{:class => "#{cycle('even', 'odd')}"}
+                    
+                    %td= @client.full_names              
+                    %td= @client.phone_number
+                    %td
+                      -if @client.gender.nil?
+                        = "unspecified"
+                      - else
+                        =@client.gender.gender.camelcase
+                    %td= @client.dob
+                    %td= @client.center.nil? ? 'Unspecified' : @client.center.name
+                    %td= @client.marital.nil? ? 'Unspecified' : @client.marital.status
+                    %td= @client.occupation
+                    %td= @client.employer
+                    %td= @client.id_number
+                    %td= @client.alt_contact
+                    %td= @client.relationship
+      / /.box-body
+    / /.box
+  / /.col
 
 = link_to 'Edit', edit_client_path(@client),class: "btn btn-default"
 \|
