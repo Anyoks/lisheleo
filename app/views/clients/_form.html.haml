@@ -30,19 +30,63 @@
               .col-md-3
                 .form-group
                   %label{:for => "exampleInputPassword1"} Gender
-                  = f.text_field :gender, class: "form-control", placeholder: "Enter client Gender"
+                  %p
+                  = f.select :gender_id, Gender.all.map { |c| [c.gender, c.id] }, include_blank: false
+                  -# = f.text_field :gender, class: "form-control", placeholder: "Enter client Gender"
             .row
-              .col-md-6
+              .col-md-3
                 .form-group
                   %label{:for => "exampleInputPassword1"} Phone Number
                   = f.text_field :phone_number, class: "form-control", placeholder: "Phone Number"
-              .col-md-6
+
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} ID Number
+                  = f.text_field :id_number, class: "form-control", placeholder: "ID Number"
+
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Alt Contact
+                  = f.text_field :id_number, class: "form-control", placeholder: "Alt Contact Number"
+              
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Relationship
+                  = f.text_field :relationship, class: "form-control", placeholder: "Alt Contact Number"
+            .row
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Marital Status
+                  %p
+                  -# = f.input :center, class: "form-control", :label => "" do
+                  = f.select :marital_id, Marital.all.map { |c| [c.status, c.id] }, include_blank: false
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Occupation
+                  = f.text_field :occupation, class: "form-control", placeholder: "Enter Occupation"
+              .col-md-3
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Employer
+                  = f.text_field :employer, class: "form-control", placeholder: "Enter Employer"
+                
+              
+            .row
+              .col-md-3
                 .form-group
                   %label{:for => "exampleInputPassword1"} Select Center
-                  = f.input :center, class: "form-control", :label => "" do
-                    = f.select :center_id, Center.all.map { |c| [c.name, c.id] }, include_blank: false
+                  %p
+                  -# = f.input :center, class: "form-control", :label => "" do
+                  = f.select :center_id, Center.all.map { |c| [c.name, c.id] }, include_blank: false
                   %span.help-block
-            .row
+
+              .col-md-6
+                .form-group
+                  %label{:for => "exampleInputPassword1"} Date Of Birth
+                  %p
+                  -# = f.input :center, class: "form-control", :label => "" do
+                  = f.input :dob,  as: :date, as: :date, start_year: Date.new(1940).year, end_year: Date.today.year-5 ,class: "form-control" ,placeholder: "Enter Employer"
+                
+                  %span.help-block
 
           / /.box-body
           .box-footer

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190131144235) do
+ActiveRecord::Schema.define(version: 20190220123204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,7 +112,18 @@ ActiveRecord::Schema.define(version: 20190131144235) do
     t.datetime "updated_at", null: false
     t.uuid "center_id"
     t.string "location"
+    t.bigint "gender_id"
+    t.date "dob"
+    t.string "id_number"
+    t.string "alt_contact"
+    t.string "relationship"
+    t.string "marital_status"
+    t.string "occupation"
+    t.string "employer"
+    t.bigint "marital_id"
     t.index ["center_id"], name: "index_clients_on_center_id"
+    t.index ["gender_id"], name: "index_clients_on_gender_id"
+    t.index ["marital_id"], name: "index_clients_on_marital_id"
     t.index ["phone_number"], name: "index_clients_on_phone_number"
   end
 
@@ -135,6 +146,18 @@ ActiveRecord::Schema.define(version: 20190131144235) do
   create_table "failed_sms_bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "phone_number"
     t.string "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "genders", force: :cascade do |t|
+    t.string "gender"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "maritals", force: :cascade do |t|
+    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -175,4 +198,6 @@ ActiveRecord::Schema.define(version: 20190131144235) do
     t.integer "program_id"
   end
 
+  add_foreign_key "clients", "genders"
+  add_foreign_key "clients", "maritals"
 end

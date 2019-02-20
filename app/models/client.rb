@@ -19,6 +19,8 @@ class Client < ApplicationRecord
 	has_many :sms
 
 	belongs_to :center
+	belongs_to :gender
+	belongs_to :marital
 
 	validates_presence_of :first_name, :last_name , :phone_number
 
